@@ -1,0 +1,558 @@
+import requests
+import json
+import time
+import os
+import sys
+import logging
+import logging
+import urllib3
+# Add parent dir to sys.path to resolve data_manager if needed
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from src.data_manager import DataManager
+
+# Disable SSL warnings
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# --- CONSTANTS ---
+USER_AGENT = "okhttp/4.11.0"
+API_BASE = "https://www.vavoo.tv/api"
+VAOO_URL = "https://vavoo.to/mediahubmx-catalog.json"
+
+GROUPS = [
+    "Germany", "Italy", "France", "Spain", "Portugal", 
+    "Turkey", "Balkan", "Albania", "Arabia", "Russia", 
+    "Poland", "Greece", "USA", "Latino", "Vavoo", "Switzerland"
+]
+
+TIVUSAT_ORDER = {
+    "RAI 1": 1, "RAI 2": 2, "RAI 3": 3, "RETE 4": 4, "CANALE 5": 5, "ITALIA 1": 6, "LA7": 7, "TV8": 8, "NOVE": 9,
+    "RAI 4": 10, "IRIS": 11, "LA5": 12, "RAI 5": 13, "RAI MOVIE": 14, "RAI PREMIUM": 15, 
+    "MEDIASET EXTRA": 17, "TV2000": 18, "CIELO": 19, "20 MEDIASET": 20, "RAI SPORT": 21,
+    "IRIS": 22, "RAI STORIA": 23, "RAI NEWS 24": 24, "TGCOM24": 25, "DMAX": 26, "REAL TIME": 31,
+    "CINE34": 34, "FOCUS": 35, "RTL 102.5": 36, "WARNER TV": 37, "GIALLO": 38, "TOP CRIME": 39,
+    "BOING": 40, "K2": 41, "RAI GULP": 42, "RAI YOYO": 43, "FRISBEE": 44, "CARTOONITO": 46, "SUPER!": 47,
+    "SPIKE": 49, "SKY TG24": 50, "TGCOM24": 51, "DMAX": 52, "ITALIA 2": 66, "RADIO ITALIA TV": 70
+}
+
+BOUQUETS = {
+    "TV Sat": ["RAI 1", "RAI 2", "RAI 3", "RETE 4", "CANALE 5", "ITALIA 1", "LA7", "TV8", "NOVE", "20 MEDIASET", "RAI 4", "IRIS", "LA5", "RAI 5", "RAI MOVIE", "RAI PREMIUM", "RAI GULP", "RAI YOYO", "RAI STORIA", "RAI SCUOLA", "RAI NEWS 24", "RAI SPORT", "SPORTITALIA", "TV2000", "CIELO", "DMAX", "REAL TIME", "QVC", "RTL 102.5", "RADIO ITALIA TV", "BOING", "K2", "FRISBEE", "CARTOONITO", "SUPER!", "SPIKE", "PARAMOUNT", "CINE34", "FOCUS", "TOP CRIME", "GIALLO", "TGCOM24", "VH1", "ITALIA 2", "SUPERTENNIS", "MOTOR TREND", "RAI 4K", "RSI LA 1", "RSI LA 2"],
+    "Cinema": ["SKY CINEMA", "PREMIUM CINEMA"],
+    "Sport": ["SKY SPORT", "DAZN", "EUROSPORT", "TENNIS", "MOTOGP", "F1", "CALCIO", "INTER", "MILAN", "JUVE"],
+    "Documentary": ["SKY DOCUMENTARIES", "SKY NATURE", "GEO", "DISCOVERY"],
+    "News": ["SKY TG24", "EURONEWS", "BBC", "CNN", "CNBC"]
+}
+
+# Mapping from Normalized Vavoo Name to EPG ID
+# Based on common Italian XMLTV IDs
+EPG_MAP = {
+    #"RAI": "Rai1.it", # Fallback for generic RAI
+    #"RAI 4K": "Rai1.it", # 4K Channel mapped to Rai 1
+    "RAI 1": "Rai1.it",
+    "RAI 2": "Rai2.it",
+    "RAI 3": "Rai3.it",
+    "RAI 4": "Rai4.it",
+    "RAI 4k": "Rai4k.it",
+    "RAI 5": "Rai5.it",
+    "RAI MOVIE": "RaiMovie.it",
+    "RAI PREMIUM": "RaiPremium.it",
+    "RAI GULP": "RaiGulp.it",
+    "RAI YOYO": "RaiYoyo.it",
+    "RAI STORIA": "RaiStoria.it",
+    "RAI SCUOLA": "RaiScuola.it",
+    "RAI NEWS 24": "RaiNews.it",
+    "RAI SPORT": "RaiSport1.it",
+    "CANALE 5": "Canale5.it",
+    "ITALIA 1": "Italia1.it",
+    "RETE 4": "Rete4.it",
+    "LA7": "La7.it",
+    "LA7D": "La7d.it",
+    "TV8": "TV8.it",
+    "NOVE": "Nove.it",
+    "DISCOVERY NOVE": "Nove.it",
+    "20 MEDIASET": "20.it",
+    "CIELO": "cielo.it",
+    "DMAX": "DMAX.it",
+    "REAL TIME": "RealTime.it",
+    "FOCUS": "Focus.it",
+    "DISCOVERY FOCUS": "Focus.it",
+    "GIALLO": "Giallo.TV.it",
+    "TOP CRIME": "Top.Crime.it",
+    "BOING": "Boing.it",
+    "K2": "K2.it",
+    "DISCOVERY K2": "K2.it",
+    "FRISBEE": "Frisbee.it",
+    "CARTOONITO": "Cartoonito.it",
+    "SUPER!": "Super.it",
+    "IRIS": "Iris.it",
+    "LA5": "La.5.it",
+    "CINE34": "Cine34.it",
+    "MEDIASET EXTRA": "Mediaset.Extra.it",
+    "ITALIA 2": "Italia.2.it",
+    "TGCOM24": "TGCom.it",
+    "SPIKE": "Spike.it",
+    "PARAMOUNT": "Paramount.Channel.it",
+    "VH1": "VH1.it",
+    "RTL 102.5": "RTL.102.5.HD.it",
+    "RADIO ITALIA TV": "Radio.Italia.TV.HD.it",
+    "RADIONORBA TV": "RADIONORBA.TV.it",
+    "RADIOFRECCIA": "RADIOFRECCIA.HD.it",
+    "SKY TG 24": "Sky.TG24.it", 
+    "SKY SPORT 24": "Sky.Sport.24.it",
+    "SKY SPORT UNO": "SkySportUno.it",
+    "SKY SPORT CALCIO": "SkySportCalcio.it",
+    "SKY SPORT F1": "SkySportF1.it",
+    "SKY SPORT MOTOGP": "SkySportMotoGP.it",
+    "SKY SPORT MOTO GP": "SkySportMotoGP.it",
+    "SKY SPORT TENNIS": "SkySportTennis.it",
+    "SKY SPORT ARENA": "SkySportArena.it",
+    "SKY SPORT GOLF": "SkySportGolf.it",
+    "SKY SPORT 4K": "SkySport4K.it",
+    "SKY SPORT": "SkySport.it",
+    "SKY UNO": "SkyUno.it",
+    "SKY UNO +1": "SkyUno+1.it",
+    "SKY ATLANTIC": "SkyAtlantic.it",
+    "SKY ATLANTIC +1": "SkyAtlantic+1.it",
+    "SKY SERIE": "SkySerie.it",
+    "SKY SERIE +1": "SkySerie+1.it",
+    "SKY INVESTIGATION": "SkyInvestigation.it",
+    "SKY INVESTIGATION MARATONE": "SkyInvestigationMaratone.it",
+    "SKY CRIME": "SkyCrime.it",
+    "SKY ARTE": "SkyArte.it",
+    "SKY ARTE +1": "SkyArte+1.it",
+    "SKY DOCUMENTARIES": "SkyDocumentaries.it",
+    "SKY DOCUMENTARIES +1": "SkyDocumentaries+1.it",
+    "SKY NATURE": "SkyNature.it",
+    "SKY CINEMA UNO": "SkyCinemaUno.it",
+    "SKY CINEMA DUE": "SkyCinemaDue.it",
+    "SKY CINEMA COLLECTION": "SkyCinemaCollection.it",
+    "SKY CINEMA FAMILY": "SkyCinemaFamily.it",
+    "SKY CINEMA ACTION": "SkyCinemaAction.it",
+    "SKY CINEMA SUSPENSE": "SkyCinemaSuspense.it",
+    "SKY CINEMA ROMANCE": "SkyCinemaRomance.it",
+    "SKY CINEMA DRAMA": "SkyCinemaDrama.it",
+    "SKY CINEMA COMEDY": "SkyCinemaComedy.it",
+    "SKY CINEMA UNO +24": "SkyCinemaUno+24.it",
+    "RSI LA 1": "RSI.La.1.ch",
+    "RSI LA 2": "RSI.LA.2.ch",
+    "RSI LA1": "RSILA1.ch",
+    "RSI LA2": "RSILA2.ch",
+}
+
+class PlaylistGenerator:
+    """
+    Handles fetching channels from Vavoo API and generating M3U8 playlists.
+    """
+    def __init__(self):
+        self._auth_cache = {
+            "sig": None,
+            "timestamp": 0
+        }
+        self.dm = DataManager()
+
+    def _get_auth_signature(self):
+        """Performs handshake to get the addon signature."""
+        url = f"{API_BASE}/app/ping"
+        headers = {
+            "user-agent": USER_AGENT,
+            "accept": "application/json",
+            "content-type": "application/json; charset=utf-8",
+            "accept-encoding": "gzip"
+        }
+        
+        data = {
+            "token": "tosFwQCJMS8qrW_AjLoHPQ41646J5dRNha6ZWHnijoYQQQoADQoXYSo7ki7O5-CsgN4CH0uRk6EEoJ0728ar9scCRQW3ZkbfrPfeCXW2VgopSW2FWDqPOoVYIuVPAOnXCZ5g",
+            "reason": "app-blur",
+            "locale": "de",
+            "theme": "dark",
+            "metadata": {
+                "device": {"type": "Handset", "brand": "google", "model": "Nexus", "name": "21081111RG", "uniqueId": "d10e5d99ab665233"},
+                "os": {"name": "android", "version": "7.1.2", "abis": ["arm64-v8a", "armeabi-v7a", "armeabi"], "host": "android"},
+                "app": {"platform": "android", "version": "3.1.20", "buildId": "289515000", "engine": "hbc85", "signatures": ["6e8a975e3cbf07d5de823a760d4c2547f86c1403105020adee5de67ac510999e"], "installer": "app.revanced.manager.flutter"},
+                "version": {"package": "tv.vavoo.app", "binary": "3.1.20", "js": "3.1.20"}
+            },
+            "appFocusTime": 0,
+            "playerActive": False,
+            "playDuration": 0,
+            "devMode": False,
+            "hasAddon": True,
+            "castConnected": False,
+            "package": "tv.vavoo.app",
+            "version": "3.1.20",
+            "process": "app",
+            "firstAppStart": 1743962904623,
+            "lastAppStart": 1743962904623,
+            "ipLocation": "",
+            "adblockEnabled": True,
+            "proxy": {"supported": ["ss", "openvpn"], "engine": "ss", "ssVersion": 1, "enabled": True, "autoServer": True, "id": "pl-waw"},
+            "iap": {"supported": False}
+        }
+
+        try:
+            logging.info("Requesting authentication signature...")
+            # Disable SSL verification
+            response = requests.post(url, json=data, headers=headers, timeout=10, verify=False)
+            response.raise_for_status()
+            sig = response.json().get("addonSig")
+            if sig:
+                self._auth_cache["sig"] = sig
+                self._auth_cache["timestamp"] = time.time()
+                logging.info("Signature received successfully.")
+            return sig
+        except Exception as e:
+            logging.error(f"Error getting auth signature: {e}")
+            return None
+
+    def get_signature(self, max_age_seconds=600):
+        """Returns a valid signature, refreshing if expired."""
+        if self._auth_cache["sig"] and (time.time() - self._auth_cache["timestamp"] < max_age_seconds):
+            return self._auth_cache["sig"]
+        return self._get_auth_signature()
+
+    def fetch_all_channels(self, target_groups=None):
+        """
+        Fetches channels from the API.
+        
+        Args:
+            target_groups (list): List of groups to fetch. If None, uses default GROUPS.
+            
+        Returns:
+            list: List of channel dictionaries.
+        """
+        if target_groups is None:
+            target_groups = GROUPS
+
+        sig = self.get_signature()
+        if not sig:
+            logging.error("Could not obtain signature. Aborting fetch.")
+            return []
+
+        all_channels = []
+        seen_urls = set()
+        
+        for group in target_groups:
+            logging.info(f"Fetching group: {group}...")
+            cursor = 0
+            group_items = 0
+            
+            while True:
+                data = {
+                    "language": "en",
+                    "region": "US",
+                    "catalogId": "iptv",
+                    "id": "iptv",
+                    "adult": False,
+                    "search": "",
+                    "sort": "name",
+                    "filter": {"group": group},
+                    "cursor": cursor,
+                    "clientVersion": "3.0.2"
+                }
+                
+                headers = {
+                    "user-agent": USER_AGENT,
+                    "accept": "application/json",
+                    "content-type": "application/json; charset=utf-8",
+                    "mediahubmx-signature": sig
+                }
+                
+                try:
+                    # Disable SSL verification
+                    r = requests.post(VAOO_URL, json=data, headers=headers, timeout=15, verify=False)
+
+                    r.raise_for_status()
+                    res = r.json()
+                    
+                    items = res.get("items", [])
+                    if not items:
+                        break
+                        
+                    for item in items:
+                        url = item.get("url")
+                        name = item.get("name")
+                        seen_key = (name, url)
+                        if url and seen_key not in seen_urls:
+                            clean_item = {
+                                "name": name,
+                                "url": url,
+                                "group": group,
+                                "logo": item.get("logo")
+                            }
+                            all_channels.append(clean_item)
+                            seen_urls.add(seen_key)
+                            group_items += 1
+                    
+                    cursor = res.get("nextCursor")
+                    if cursor is None:
+                        break
+                        
+                except Exception as e:
+                    logging.error(f"Error fetching {group}: {e}")
+                    break
+            
+            logging.info(f" > Found {group_items} channels in {group}")
+
+        # Always search for RSI specifically to ensure we catch all variants and groups
+        rsi_channels = self.brute_force_search_rsi(sig)
+        for rsi_ch in rsi_channels:
+            seen_key = (rsi_ch['name'], rsi_ch['url'])
+            if seen_key not in seen_urls:
+                all_channels.append(rsi_ch)
+                seen_urls.add(seen_key)
+
+        return all_channels
+
+    def brute_force_search_rsi(self, sig):
+        """Searches specifically for RSI channels in likely groups."""
+        target_names = ["RSI LA 1", "RSI LA 2", "RSI LA1", "RSI LA2"]
+        found = []
+        # Germany and Vavoo are most likely candidates for Swiss content
+        search_groups = ["Italy", "Germany", "Vavoo", "Switzerland", "Swiss", "Other"] 
+        search_queries = ["RSI LA", "RSI LA 1", "RSI LA 2", "RSI", "LA 1", "LA 2"]
+        
+        logging.info("Attempting targeted search for RSI channels...")
+        
+        seen_urls_rsi = set()
+        for group in search_groups:
+            for query in search_queries:
+                cursor = 0
+                while True:
+                    data = {
+                        "language": "en",
+                        "region": "US",
+                        "catalogId": "iptv",
+                        "id": "iptv",
+                        "adult": False,
+                        "search": query, 
+                        "sort": "name",
+                        "filter": {"group": group},
+                        "cursor": cursor,
+                        "clientVersion": "3.0.2"
+                    }
+                    
+                    headers = {
+                        "user-agent": USER_AGENT,
+                        "accept": "application/json",
+                        "content-type": "application/json; charset=utf-8",
+                        "mediahubmx-signature": sig
+                    }
+                    
+                    try:
+                        r = requests.post(VAOO_URL, json=data, headers=headers, timeout=12, verify=False)
+                        if r.status_code == 200:
+                            res = r.json()
+                            items = res.get("items", [])
+                            if not items:
+                                break
+                            
+                            for item in items:
+                                name = item.get("name", "")
+                                url = item.get("url")
+                                
+                                if url and url not in seen_urls_rsi:
+                                    clean_name_up = name.upper()
+                                    if any(tn.upper() in clean_name_up for tn in target_names):
+                                        found.append({
+                                            "name": name,
+                                            "url": url,
+                                            "group": "Switzerland", 
+                                            "logo": item.get("logo"),
+                                            "priority": 100 
+                                        })
+                                        seen_urls_rsi.add(url) # We still deduplicate URLs locally within this search
+                            
+                            cursor = res.get("nextCursor")
+                            if cursor is None:
+                                break
+                        else:
+                            break
+                    except Exception:
+                        break
+                
+        return found
+
+
+
+    def _normalize_name(self, name):
+        import re
+        if not name: return ""
+        n = name.upper()
+        n = re.sub(r'\[.*\]', '', n)
+        n = re.sub(r'\(.*\)', '', n)
+        n = re.sub(r'\s+(HD|FHD|SD|4K|ITA|ITALIA|BACKUP|TIMVISION|PLUS)$', '', n)
+        
+        # Handle Vavoo specific suffixes
+        n = re.sub(r'\s+\.[A-Z0-9]{1,3}$', '', n) # Remove " .c", " .s" (Upper because n is upper)
+        n = re.sub(r'\s+\+$', '', n)
+        n = re.sub(r'[^A-Z0-9 ]', '', n)
+        return n.strip()
+
+    def _get_category(self, norm_name):
+        for category, keywords in BOUQUETS.items():
+            for k in keywords:
+                if k in norm_name:
+                    return category
+        return "Other"
+
+    def _get_priority(self, norm_name):
+        # Exact match logic for short names to avoid partial overlap issues
+        if norm_name in TIVUSAT_ORDER:
+            return TIVUSAT_ORDER[norm_name]
+        
+        # Substring match if not exact
+        for k, v in TIVUSAT_ORDER.items():
+            if k in norm_name:
+                return v
+        return 9999
+
+    def generate_m3u8(self, output_path, groups=None):
+        """
+        Generates an M3U8 playlist file with sorting, categorization, and local logos.
+        """
+        # 1. Delete existing playlist if it exists
+        if os.path.exists(output_path):
+            try:
+                os.remove(output_path)
+                logging.info(f"Deleted existing playlist: {output_path}")
+            except OSError as e:
+                logging.warning(f"Error deleting existing playlist: {e}")
+
+        channels = self.fetch_all_channels(groups)
+        logging.info(f"DEBUG: fetch_all_channels returned {len(channels)} items.")
+        for c in channels:
+            if "RSI" in c['name'].upper():
+                 logging.info(f"DEBUG: Catalog contains RSI: {c['name']} | URL: {c['url']}")
+
+        if not channels:
+            logging.warning("No channels found to write.")
+            return False
+
+        # Process channels
+        processed_channels = []
+        logos_dir = os.path.join(os.path.dirname(__file__), "..", "..", "logos") # Assuming script is in python_iptv/src
+        
+        # Verify logos dir path, fallback to current dir/logos if not found
+        if not os.path.exists(logos_dir):
+             logos_dir = os.path.join(os.path.dirname(__file__), "logos")
+
+        # Load EPGs to populate names
+        logging.info("Loading EPG data for name resolution...")
+        self.dm.load_all_epgs()
+
+        for ch in channels:
+            norm_name = self._normalize_name(ch['name'])
+            
+            # BLACKLIST
+            if "RAI ITALIA" in norm_name:
+                continue
+            
+            # RENAME
+            if norm_name == "RAI":
+                # Special case for generic "RAI" which is actually RAI 4K on Vavoo
+                norm_name = "RAI 4K"
+                ch['final_logo_override'] = "logos/Rai4k.it.png"
+                ch['no_epg'] = True
+            elif norm_name == "RAI 4K":
+                ch['final_logo_override'] = "logos/Rai4k.it.png"
+                ch['no_epg'] = True
+            elif norm_name == "DISCOVERY NOVE":
+                norm_name = "NOVE"
+            elif norm_name == "DISCOVERY K2":
+                norm_name = "K2"
+            elif norm_name == "DISCOVERY FOCUS":
+                norm_name = "FOCUS"
+
+            category = self._get_category(norm_name)
+            priority = self._get_priority(norm_name)
+            
+            if priority == 9999:
+                 if "SKY" in norm_name: priority = 200
+                 elif "DAZN" in norm_name: priority = 210
+                 elif "PRIMA" in norm_name: priority = 300
+            
+            # Resolve EPG ID and Logo
+            epg_id = "" if ch.get('no_epg') else EPG_MAP.get(norm_name, "")
+            
+            # Fallback for Sky/Dazn if not in map but name contains it (heuristic)
+            if not epg_id:
+                if "SKY" in norm_name:
+                     # Attempt to construct e.g. SkyUno.it from SKY UNO
+                     # strict mapping is better, but allow fallback if needed
+                     pass 
+
+            tvg_id = epg_id if epg_id else norm_name
+            if ch.get('no_epg'): tvg_id = ""
+            
+            tvg_name = tvg_id if tvg_id else ch['name']
+            if ch.get('no_epg'):
+                tvg_name = ch['name'] # User usually wants the name to be the clean display name
+                tvg_id = ""
+            
+            # Resolve Clean Name from EPG
+            # Default to normalized name, but try to fetch clean "Rai 1" from "IT - Rai 1"
+            clean_display_name = norm_name
+            if epg_id:
+                epg_name = self.dm.get_clean_epg_name(epg_id)
+                if epg_name:
+                    clean_display_name = epg_name
+            
+            # Check local logo
+            logo_path = ch['logo'] # Default to remote
+            if ch.get('final_logo_override'):
+                logo_path = ch['final_logo_override']
+            elif epg_id:
+                local_fname = f"{epg_id}.png"
+                full_logo_path = os.path.join(logos_dir, local_fname)
+                if os.path.exists(full_logo_path):
+                    logo_path = f"logos/{local_fname}"
+            
+            ch['norm_name'] = norm_name
+            ch['group'] = category
+            ch['priority'] = priority
+            ch['tvg_id'] = tvg_id
+            ch['tvg_name'] = tvg_name
+            ch['final_logo'] = logo_path
+            ch['clean_name'] = clean_display_name
+            
+            processed_channels.append(ch)
+
+        # Sort
+        processed_channels.sort(key=lambda x: (x['priority'], x['group'], x['norm_name']))
+
+        if not processed_channels:
+            logging.warning("No valid channels to write.")
+            return False
+
+        try:
+            logging.info(f"Writing {len(processed_channels)} channels to {output_path}...")
+            with open(output_path, "w", encoding="utf-8") as f:
+                # Include both Primary and Backup EPGs for Italy and Switzerland
+                epg_urls = "https://iptv-epg.org/files/epg-it.xml.gz,https://iptv-epg.org/files/epg-ch.xml.gz,https://epgshare01.online/epgshare01/epg_ripper_IT1.xml.gz,https://epgshare01.online/epgshare01/epg_ripper_CH1.xml.gz"
+                f.write(f'#EXTM3U x-tvg-url="{epg_urls}"\n')
+                
+                for ch in processed_channels:
+                    f.write(f'#EXTVLCOPT:http-user-agent={USER_AGENT}\n')
+                    # Format: #EXTINF:-1 tvg-id="..." tvg-name="..." tvg-logo="..." group-title="...",NAME
+                    # User requested clean name from EPG (e.g. "Rai 1")
+                    # Set tvg-name to the clean name as well, as some players display this instead of the comma-title
+                    header = f'#EXTINF:-1 tvg-id="{ch["tvg_id"]}" tvg-name="{ch["clean_name"]}" tvg-logo="{ch["final_logo"]}" group-title="{ch["group"]}",{ch["clean_name"]}'
+                    f.write(f"{header}\n")
+                    f.write(f"{ch['url']}\n")
+                    
+            logging.info("Playlist generated successfully.")
+            return True
+        except Exception as e:
+            logging.error(f"Error writing playlist: {e}")
+            return False
+
+if __name__ == "__main__":
+    # Test run
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        handlers=[
+            logging.FileHandler("vavoo_player.log", encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
+    gen = PlaylistGenerator()
+    gen.generate_m3u8("test_playlist.m3u8", groups=["Italy", "Switzerland", "Vavoo"])
