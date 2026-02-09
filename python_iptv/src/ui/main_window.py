@@ -295,8 +295,9 @@ class IPTVPlayer(QMainWindow):
             widget = self.channel_list.itemWidget(item)
             ch = item.data(Qt.ItemDataRole.UserRole)
             if widget and ch:
-                title, _ = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
-                widget.update_program(title if title else "No Info Available")
+                title, _, start_dt, stop_dt = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
+                widget.update_program(title if title else "No Info Available", start_dt, stop_dt)
+
 
     def change_channel_offset(self, offset):
         count = self.channel_list.count()
@@ -366,9 +367,10 @@ class IPTVPlayer(QMainWindow):
         self.media_player.play()
         
         # Update Info Area
-        title, _ = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
+        title, _, start_dt, stop_dt = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
         self.controls.title_label.setText(ch['name'])
         self.controls.subtitle_label.setText(title if title else "Live")
+
         self.controls.play_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause))
         
         # Update Logo in Controls
