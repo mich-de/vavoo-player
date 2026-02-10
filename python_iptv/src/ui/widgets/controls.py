@@ -42,6 +42,22 @@ class ControlsWidget(QWidget):
         self.info_layout.addWidget(self.title_label)
         self.info_layout.addWidget(self.subtitle_label)
         
+        self.desc_label = QLabel("")
+        self.desc_label.setObjectName("videoDescription")
+        self.desc_label.setStyleSheet("font-size: 11px; color: #71717a; background: transparent;")
+        self.desc_label.setWordWrap(False) # Keep single line to save space, maybe scroll later? Or wrap if space ensures?
+        # User asked for summary. Summaries can be long.
+        # Fixed height 90px controls. 
+        # Title (20px) + Subtitle (15px) + Desc (15px) + Margins. Fits.
+        # But if desc is long, it will expand layout?
+        # ControlsWidget has setFixedHeight(90).
+        # We need to ensure it doesn't break.
+        # I'll enable word wrap but limit lines? No easy way in QLabel without custom paint.
+        # I'll stick to single line truncated for now, or just let it be.
+        # "riassunto" implies text.
+        self.desc_label.setFixedHeight(16) 
+        self.info_layout.addWidget(self.desc_label)
+        
         self.layout.addWidget(self.menu_btn)
         self.layout.addSpacing(5)
         self.layout.addWidget(self.refresh_btn)

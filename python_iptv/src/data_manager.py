@@ -3,6 +3,7 @@ import gzip
 import requests
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 import io
 import re
 import logging
@@ -313,8 +314,14 @@ class DataManager:
         self._fetch_and_parse_epg(url)
         self._apply_epg_to_channels()
 
+    @staticmethod
+    def get_current_time_cest():
+        """Returns current time in Europe/Rome timezone (CET/CEST)."""
+        return datetime.now(ZoneInfo("Europe/Rome"))
+
     def get_current_program(self, channel_id, norm_name=None):
-        """Finds the current running program using ID or normalized name."""
+        """Finds the current running program using ID or normalized name.
+        Returns: (title, desc, start_dt, stop_dt)"""
         now = datetime.now(timezone.utc)
         
         # Try direct ID
@@ -327,7 +334,7 @@ class DataManager:
         if not target_id or target_id not in self.epg_data:
             if norm_name and "RAI" in norm_name:
                 logging.warning(f"EPG MISS: Channel '{norm_name}' not found in EPG (Found ID: {target_id})")
-            return None, None
+            return None, None, None, None
             
         programs = self.epg_data[target_id]
         for prog in programs:
@@ -336,11 +343,11 @@ class DataManager:
                 stop_dt = self._parse_xmltv_date(prog['stop'])
                 
                 if start_dt and stop_dt and start_dt <= now <= stop_dt:
-                    return prog['title'], prog['desc']
+                    return prog['title'], prog['desc'], start_dt, stop_dt
             except:
                 continue
                 
-        return "No Info Available", ""
+        return "No Info Available", "", None, None
 
     def _parse_xmltv_date(self, date_str):
         try:

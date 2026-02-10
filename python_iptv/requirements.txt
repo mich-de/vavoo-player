@@ -1,3 +1,5 @@
 PyQt6
 python-vlc
 requests
+python-mpv
+tzdata

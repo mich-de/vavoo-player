@@ -78,4 +78,16 @@ QPushButton.controlBtn:hover {
     background: #27272a;
     color: white;
 }
+
+/* EPG Progress Bar */
+QProgressBar#epgProgress {
+    background-color: #27272a;
+    border: none;
+    border-radius: 1px;
+    max-height: 3px;
+}
+QProgressBar#epgProgress::chunk {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #5b13ec, stop:1 #8b5cf6);
+    border-radius: 1px;
+}
 """

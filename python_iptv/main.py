@@ -3,6 +3,9 @@ import os
 import logging
 from PyQt6.QtWidgets import QApplication
 
+# Ensure libmpv (in project root) is found
+os.environ["PATH"] = os.getcwd() + os.pathsep + os.environ["PATH"]
+
 # --- LOGGING SETUP ---
 log_file = os.path.join(os.path.dirname(__file__), "..", "vavoo_player.log")
 logging.basicConfig(

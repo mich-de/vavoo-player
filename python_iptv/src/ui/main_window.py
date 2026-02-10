@@ -1,12 +1,10 @@
 import sys
 import os
-import vlc
-import re
 import logging
 from datetime import datetime
 from PyQt6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
                              QFrame, QListWidget, QListWidgetItem, QLabel, 
-                             QLineEdit, QSizePolicy, QStyle)
+                             QLineEdit, QSizePolicy, QStyle, QMessageBox, QStackedLayout)
 from PyQt6.QtCore import Qt, QTimer, QSize, QEvent, QThread, pyqtSignal
 from PyQt6.QtGui import QPixmap, QIcon
 
@@ -16,6 +14,7 @@ from src.ui.widgets.channel_item import ChannelItemWidget
 from src.ui.widgets.controls import ControlsWidget
 from src.ui.widgets.loading_overlay import LoadingOverlay
 from src.playlist_generator import PlaylistGenerator
+from src.ui.player_backend import create_player, get_backend_name, PlayerState
 
 class PlaylistWorker(QThread):
     finished = pyqtSignal(bool, str)
@@ -98,41 +97,60 @@ class IPTVPlayer(QMainWindow):
         # Top Bar (Toggle always visible here)
         self.top_bar = QWidget()
         self.top_bar.setObjectName("topBar")
-        self.top_bar.setFixedHeight(0) # Hidden by default, sidebar toggle moved to bottom controls
+        self.top_bar.setFixedHeight(0) # Hidden by default
         
-        # Video Frame (Middle)
+        # --- Video Container with Stacked Layout for Overlay ---
+        self.video_container = QWidget()
+        self.video_container.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.video_stack = QStackedLayout(self.video_container)
+        self.video_stack.setStackingMode(QStackedLayout.StackingMode.StackAll)
+        
+        # Layer 0: Video Frame (MPV render target)
         self.video_frame = QFrame()
         self.video_frame.setStyleSheet("background-color: black;")
         self.video_frame.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        # Enable Mouse Tracking for auto-hide controls in fullscreen
+        # Enable Mouse Tracking for auto-hide controls
         self.video_frame.setMouseTracking(True)
+        self.video_stack.addWidget(self.video_frame)
         
-        # Loading Overlay
-        self.loading_overlay = LoadingOverlay(self.video_frame)
-        self.loading_overlay.hide()
+        # Layer 1: Loading Overlay (Transparent background)
+        self.overlay_container = QWidget()
+        self.overlay_container.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents) 
+        self.overlay_container.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.overlay_layout = QVBoxLayout(self.overlay_container)
+        self.overlay_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        self.loading_overlay = LoadingOverlay(self.overlay_container) # Parented to container
+        self.loading_overlay.hide() # Initially hidden
+        
+        self.overlay_layout.addWidget(self.loading_overlay)
+        self.video_stack.addWidget(self.overlay_container)
         
         # Controls (Bottom)
         self.controls = ControlsWidget(self)
         
-        self.content_layout.addWidget(self.video_frame)
+        self.content_layout.addWidget(self.video_container)
         self.content_layout.addWidget(self.controls)
         
         # Add to main layout
         self.main_layout.addWidget(self.sidebar)
         self.main_layout.addWidget(self.content_area)
         
-        # VLC Setup
-        vlc_args = [
-            '--http-user-agent=VAVOO/2.6',
-            '--no-video-title-show',
-            '--quiet',
-            '--no-xlib',
-            '--network-caching=5000'
-        ]
-        self.vlc_instance = vlc.Instance(*vlc_args)
-        self.media_player = self.vlc_instance.media_player_new()
-        self.media_player.video_set_mouse_input(False)
-        self.media_player.video_set_key_input(False)
+        # Player Backend Setup
+        try:
+            self.media_player = create_player()
+            backend_name = get_backend_name(self.media_player)
+            logging.info(f"Initialized Player Backend: {backend_name}")
+            self.setWindowTitle(f"Pro IPTV Player ({backend_name})")
+            
+            # Connect Signals
+            self.media_player.state_changed.connect(self.on_player_state_changed)
+            self.media_player.time_changed.connect(self.on_player_time_changed)
+            self.media_player.error_occurred.connect(self.on_player_error)
+            
+        except Exception as e:
+            QMessageBox.critical(self, "Player Error", f"Failed to initialize player backend:\n{e}")
+            sys.exit(1)
         
         self.all_channels = []
         self.current_channel_index = -1
@@ -140,37 +158,34 @@ class IPTVPlayer(QMainWindow):
         
         self.epg_timer = QTimer()
         self.epg_timer.timeout.connect(self.update_all_epg)
-        self.epg_timer.start(60000)
+        self.epg_timer.start(60000) # Update titles every minute
+        
+        # EPG Progress Update Timer
+        self.progress_timer = QTimer()
+        self.progress_timer.setInterval(30000)
+        self.progress_timer.timeout.connect(self.update_epg_progress)
+        self.progress_timer.start()
         
         # Fullscreen Auto-Hide Timer
         self.hide_controls_timer = QTimer()
-        self.hide_controls_timer.setInterval(3000) # 3 seconds
+        self.hide_controls_timer.setInterval(3000)
         self.hide_controls_timer.setSingleShot(True)
         self.hide_controls_timer.timeout.connect(self.hide_controls_fullscreen)
         
-        # Connection Timeout Timer (30s)
+        # Connection Timeout Timer
         self.connection_timer = QTimer()
         self.connection_timer.setInterval(30000)
         self.connection_timer.setSingleShot(True)
         self.connection_timer.timeout.connect(self.handle_connection_timeout)
         
-        # Buffering Check Timer
-        self.buffering_timer = QTimer()
-        self.buffering_timer.setInterval(500)
-        self.buffering_timer.timeout.connect(self.check_playback_status)
-        
-        # Install event filter to capture mouse over video
+        # Install event filter
         self.video_frame.installEventFilter(self)
         self.controls.installEventFilter(self)
+        
+        # Ensure overlay is top
+        self.video_stack.setCurrentIndex(1)
 
     def resizeEvent(self, event):
-        # Center overlay on resize
-        if hasattr(self, 'loading_overlay'):
-            self.loading_overlay.setFixedSize(300, 100)
-            self.loading_overlay.move(
-                (self.video_frame.width() - 300) // 2,
-                (self.video_frame.height() - 100) // 2
-            )
         super().resizeEvent(event)
 
     def eventFilter(self, source, event):
@@ -180,26 +195,46 @@ class IPTVPlayer(QMainWindow):
                 self.hide_controls_timer.start()
         return super().eventFilter(source, event)
         
-    def check_playback_status(self):
-        """Checks if VLC is playing or stalled."""
-        state = self.media_player.get_state()
+    def on_player_state_changed(self, state: PlayerState):
+        """Handle state changes from backend."""
+        logging.info(f"Player State: {state}")
         
-        if state == vlc.State.Playing:
-            self.loading_overlay.hide_overlay()
+        if state in [PlayerState.OPENING, PlayerState.BUFFERING]:
+            self.loading_overlay.show_message("Buffering..." if state == PlayerState.BUFFERING else "Opening...")
+            self.loading_overlay.show()
+            self.overlay_container.show() # Ensure container is visible
+        elif state == PlayerState.PLAYING:
+            self.loading_overlay.hide()
+            self.overlay_container.hide() 
             self.connection_timer.stop()
-            self.buffering_timer.stop()
-        elif state == vlc.State.Error:
+            self.controls.play_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause))
+        elif state == PlayerState.PAUSED:
+            self.controls.play_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPlay))
+        elif state == PlayerState.STOPPED:
+            self.controls.play_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPlay))
+            self.loading_overlay.hide()
+            self.overlay_container.hide()
+        elif state == PlayerState.ERROR:
             self.handle_connection_timeout()
-        elif state == vlc.State.Ended or state == vlc.State.Stopped:
-             pass # Waiting for user input
-             
+        elif state == PlayerState.ENDED:
+             pass 
+
+    def on_player_time_changed(self, time_ms):
+        """Update time/progress UI if we had a seek bar."""
+        pass
+        
+    def on_player_error(self, error_msg):
+        logging.error(f"Player Error: {error_msg}")
+        self.loading_overlay.show_message(f"Error: {error_msg}", is_error=True)
+        self.overlay_container.show()
+
     def handle_connection_timeout(self):
         """Called when connection times out."""
         self.media_player.stop()
         self.loading_overlay.show_message("Connection Timeout (30s)", is_error=True)
+        self.overlay_container.show()
         self.connection_timer.stop()
-        self.buffering_timer.stop()
-        QTimer.singleShot(5000, self.loading_overlay.hide_overlay)
+        QTimer.singleShot(5000, lambda: [self.loading_overlay.hide(), self.overlay_container.hide()])
 
     def seek_stream(self, delta_ms):
         """Seeks forward or backward in milliseconds."""
@@ -208,7 +243,6 @@ class IPTVPlayer(QMainWindow):
             if current_time != -1:
                 new_time = max(0, current_time + delta_ms)
                 self.media_player.set_time(new_time)
-                # Show controls briefly to indicate interaction
                 if self.is_fullscreen:
                     self.show_controls_fullscreen()
                     self.hide_controls_timer.start()
@@ -234,17 +268,14 @@ class IPTVPlayer(QMainWindow):
         self.controls.aspect_btn.setText(ratio if ratio else "Auto")
 
     def take_snapshot(self):
-        # Ensure snapshots directory exists
         snap_dir = os.path.join(os.path.dirname(__file__), "..", "..", "..", "snapshots")
         if not os.path.exists(snap_dir):
             os.makedirs(snap_dir)
-            
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"snap_{timestamp}.png"
         path = os.path.abspath(os.path.join(snap_dir, filename))
         
         self.media_player.video_take_snapshot(0, path, 0, 0)
-        logging.info(f"Snapshot saved to: {path}")
         self.controls.snap_btn.setText("✓")
         QTimer.singleShot(1000, lambda: self.controls.snap_btn.setText(""))
         QTimer.singleShot(1000, lambda: self.controls.snap_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogSaveButton)))
@@ -252,23 +283,13 @@ class IPTVPlayer(QMainWindow):
     def load_playlist(self):
         if not os.path.exists(self.playlist_path):
             logging.warning(f"Playlist file not found: {self.playlist_path}. Auto-generating...")
-            # Use QTimer to allow UI to initialize first if called from __init__
             QTimer.singleShot(100, self.refresh_playlist_action)
-            return
+            return 
 
         channels, epg_url = self.data_manager.parse_m3u8(self.playlist_path)
         self.all_channels = channels
         self.populate_list(channels)
         
-        # Load EPGs from configured sources
-        def load_epg_worker():
-            self.data_manager.load_all_epgs()
-            # Trigger UI update on main thread if needed, or just let the timer/user interaction pick it up
-            # But populate_list is already done. We want to refresh the view to show correct names/logos if they changed?
-            # self.update_all_epg() is called below in original code.
-            # But load_all_epgs is synchronous and slow. It should be threaded!
-            
-        # Moving EPG load to thread to avoid freezing UI
         import threading
         threading.Thread(target=lambda: [self.data_manager.load_all_epgs(), QTimer.singleShot(0, self.update_all_epg)]).start()
 
@@ -279,8 +300,11 @@ class IPTVPlayer(QMainWindow):
             item.setData(Qt.ItemDataRole.UserRole, ch)
             item.setSizeHint(QSize(0, 60))
             
-            logo_path = self.data_manager.find_logo(ch.get('norm_name'))
-            widget = ChannelItemWidget(ch['name'], "Loading...", logo_path)
+            local_logo = self.data_manager.find_logo(ch.get('norm_name'))
+            # Use local logo if found, otherwise fallback to EPG/M3U8 logo
+            logo_to_use = local_logo if local_logo else ch.get('logo')
+            
+            widget = ChannelItemWidget(ch['name'], "Loading...", logo_to_use)
             self.channel_list.setItemWidget(item, widget)
 
     def filter_channels(self, text):
@@ -289,38 +313,71 @@ class IPTVPlayer(QMainWindow):
         self.populate_list(filtered)
         self.update_all_epg()
 
+    def _calculate_progress(self, start_dt, stop_dt):
+        if not start_dt or not stop_dt:
+            return 0
+        now = self.data_manager.get_current_time_cest()
+        if start_dt.tzinfo and not now.tzinfo:
+            now = now.replace(tzinfo=start_dt.tzinfo)
+        if now < start_dt: return 0
+        if now > stop_dt: return 100
+        total_duration = (stop_dt - start_dt).total_seconds()
+        elapsed = (now - start_dt).total_seconds()
+        if total_duration <= 0: return 0
+        return (elapsed / total_duration) * 100
+
     def update_all_epg(self):
+        logging.info("Starting EPG UI Update for all channels...")
+        try:
+            for i in range(self.channel_list.count()):
+                item = self.channel_list.item(i)
+                widget = self.channel_list.itemWidget(item)
+                ch = item.data(Qt.ItemDataRole.UserRole)
+                if widget and ch:
+                    title, _, start_dt, stop_dt = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
+                    prog_title = title if title else "No Info Available"
+                    
+                    # Calculate progress
+                    progress = self._calculate_progress(start_dt, stop_dt) if title else None
+                    
+                    widget.update_program(prog_title, progress)
+            logging.info("EPG UI Update finished.")
+        except Exception as e:
+            import traceback
+            logging.error(f"EPG UI Update CRASH: {e}")
+            traceback.print_exc()
+
+    def update_epg_progress(self):
         for i in range(self.channel_list.count()):
             item = self.channel_list.item(i)
             widget = self.channel_list.itemWidget(item)
             ch = item.data(Qt.ItemDataRole.UserRole)
             if widget and ch:
-                title, _ = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
-                widget.update_program(title if title else "No Info Available")
+                _, _, start_dt, stop_dt = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
+                if start_dt and stop_dt:
+                    progress = self._calculate_progress(start_dt, stop_dt)
+                    current_title = widget.program_label.text()
+                    widget.update_program(current_title, progress)
+            
+            # Update Controls Metadata if playing
+            if self.current_channel_index == i:
+                 title, desc, _, _ = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
+                 if title:
+                     self.controls.subtitle_label.setText(title)
+                     self.controls.desc_label.setText(desc if desc else "")
+                     self.controls.desc_label.setToolTip(desc if desc else "")
 
     def change_channel_offset(self, offset):
         count = self.channel_list.count()
         if count == 0: return
-        
         new_index = (self.current_channel_index + offset) % count
         item = self.channel_list.item(new_index)
         self.channel_list.setCurrentItem(item)
         self.play_channel(item)
 
     def refresh_playlist_action(self):
-        """Triggered by the Refresh button in Controls."""
         self.loading_overlay.show_message("Updating Playlist...")
-        # Center overlay
-        self.loading_overlay.move(
-            (self.video_frame.width() - 300) // 2,
-            (self.video_frame.height() - 100) // 2
-        )
-        
-        # Default to ITALIA.m3u8 if self.playlist_path is not absolute or correct? 
-        # Actually self.playlist_path is passed from main.py, so it should be correct.
-        # But if we need to force it:
-        # self.worker = PlaylistWorker(self.playlist_path)
-        pass # context: self.playlist_path is already set to ITALIA.m3u8 from main.py
+        self.overlay_container.show()
         
         self.worker = PlaylistWorker(self.playlist_path)
         self.worker.finished.connect(self.on_playlist_updated)
@@ -332,64 +389,67 @@ class IPTVPlayer(QMainWindow):
             self.loading_overlay.show_message("Playlist Updated!", is_error=False)
         else:
             self.loading_overlay.show_message("Update Failed!", is_error=True)
-            
-        QTimer.singleShot(2000, self.loading_overlay.hide_overlay)
+        QTimer.singleShot(2000, lambda: [self.loading_overlay.hide(), self.overlay_container.hide()])
         
     def play_channel(self, item):
         self.current_channel_index = self.channel_list.row(item)
         ch = item.data(Qt.ItemDataRole.UserRole)
         logging.info(f"Playing: {ch['url']}")
         
-        # Reset and Start timers
         self.connection_timer.start()
-        self.buffering_timer.start()
-        self.loading_overlay.show_message("Buffering...")
-        self.loading_overlay.move(
-            (self.video_frame.width() - 300) // 2,
-            (self.video_frame.height() - 100) // 2
-        )
         
-        self.media_player.stop()
+        # Stop existing manually to clear state, but play() handles it.
+        # However, backend.play will trigger OPENING state which shows overlay
         
+        # Embed window
         if sys.platform == "win32":
-            self.media_player.set_hwnd(int(self.video_frame.winId()))
+            # For MPV on Windows with WID, we need to ensure the video_frame has a valid WID
+            self.media_player.set_window(int(self.video_frame.winId()))
         elif sys.platform.startswith("linux"):
-             self.media_player.set_xwindow(int(self.video_frame.winId()))
+             self.media_player.set_window(int(self.video_frame.winId()))
         
-        media = self.vlc_instance.media_new(ch['url'])
-        media.add_option(f":http-user-agent=VAVOO/2.6")
-        media.add_option(":http-referrer=https://vavoo.to/")
-        media.add_option(":network-caching=5000")
-        media.add_option(":http-reconnect=true")
-        self.media_player.set_media(media)
-        
-        self.media_player.play()
+        # Play
+        opts = {
+            'user_agent': ch.get('user_agent', 'VAVOO/2.6'),
+            'referrer': 'https://vavoo.to/',
+            'caching': '5000'
+        }
+        self.media_player.play(ch['url'], opts)
         
         # Update Info Area
-        title, _ = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
+        title, desc, start_dt, stop_dt = self.data_manager.get_current_program(ch.get('id'), ch.get('norm_name'))
         self.controls.title_label.setText(ch['name'])
         self.controls.subtitle_label.setText(title if title else "Live")
-        self.controls.play_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause))
+        self.controls.desc_label.setText(desc if desc else "")
+        self.controls.desc_label.setToolTip(desc if desc else "") # Tooltip for full text if truncated
+        
+        # Init progress just in case
+        if title:
+             progress = self._calculate_progress(start_dt, stop_dt)
+             widget = self.channel_list.itemWidget(item)
+             if widget: widget.update_program(title, progress)
         
         # Update Logo in Controls
-        logo_path = self.data_manager.find_logo(ch.get('norm_name'))
+        local_logo = self.data_manager.find_logo(ch.get('norm_name'))
+        logo_path = local_logo if local_logo else ch.get('logo')
+        
         if logo_path:
             pixmap = QPixmap(logo_path)
+            # QPixmap(url) fails silently, so for URLs we might need network loading.
+            # But at least this enables local files referenced in m3u8/EPG.
+            # For URLs, we'd need async loading. For now, this is "better than nothing".
             if not pixmap.isNull():
                 self.controls.logo_label.setPixmap(pixmap.scaled(40, 40, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+            else:
+                 self.controls.logo_label.clear()
         else:
             self.controls.logo_label.clear()
 
     def toggle_play(self):
-        if self.media_player.is_playing():
-            self.media_player.pause()
-            self.controls.play_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPlay))
-        else:
-            self.media_player.play()
-            self.controls.play_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause))
+        self.media_player.toggle_pause()
 
     def set_volume(self, val):
-        self.media_player.audio_set_volume(val)
+        self.media_player.set_volume(val)
 
     def toggle_fullscreen(self):
         if not self.is_fullscreen:
