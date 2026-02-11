@@ -404,9 +404,14 @@ class PlaylistGenerator:
                 return v
         return 9999
 
-    def generate_m3u8(self, output_path, groups=None):
+    def generate_m3u8(self, output_path, groups=None, is_xc=False):
         """
         Generates an M3U8 playlist file with sorting, categorization, and local logos.
+        
+        Args:
+            output_path (str): Path to save the playlist.
+            groups (list): Groups to include.
+            is_xc (bool): If True, generates XCIPTV/Ottrun compatible format.
         """
         # 1. Delete existing playlist if it exists
         if os.path.exists(output_path):
@@ -418,10 +423,7 @@ class PlaylistGenerator:
 
         channels = self.fetch_all_channels(groups)
         logging.info(f"DEBUG: fetch_all_channels returned {len(channels)} items.")
-        for c in channels:
-            if "RSI" in c['name'].upper():
-                 logging.info(f"DEBUG: Catalog contains RSI: {c['name']} | URL: {c['url']}")
-
+        
         if not channels:
             logging.warning("No channels found to write.")
             return False
@@ -472,23 +474,15 @@ class PlaylistGenerator:
             # Resolve EPG ID and Logo
             epg_id = "" if ch.get('no_epg') else EPG_MAP.get(norm_name, "")
             
-            # Fallback for Sky/Dazn if not in map but name contains it (heuristic)
-            if not epg_id:
-                if "SKY" in norm_name:
-                     # Attempt to construct e.g. SkyUno.it from SKY UNO
-                     # strict mapping is better, but allow fallback if needed
-                     pass 
-
             tvg_id = epg_id if epg_id else norm_name
             if ch.get('no_epg'): tvg_id = ""
             
             tvg_name = tvg_id if tvg_id else ch['name']
             if ch.get('no_epg'):
-                tvg_name = ch['name'] # User usually wants the name to be the clean display name
+                tvg_name = ch['name']
                 tvg_id = ""
             
             # Resolve Clean Name from EPG
-            # Default to normalized name, but try to fetch clean "Rai 1" from "IT - Rai 1"
             clean_display_name = norm_name
             if epg_id:
                 epg_name = self.dm.get_clean_epg_name(epg_id)
@@ -523,18 +517,21 @@ class PlaylistGenerator:
             return False
 
         try:
-            logging.info(f"Writing {len(processed_channels)} channels to {output_path}...")
+            logging.info(f"Writing {len(processed_channels)} channels to {output_path} (Format: {'XCIPTV' if is_xc else 'Standard'})...")
             with open(output_path, "w", encoding="utf-8") as f:
                 # Include both Primary and Backup EPGs for Italy and Switzerland
                 epg_urls = "https://iptv-epg.org/files/epg-it.xml.gz,https://iptv-epg.org/files/epg-ch.xml.gz,https://epgshare01.online/epgshare01/epg_ripper_IT1.xml.gz,https://epgshare01.online/epgshare01/epg_ripper_CH1.xml.gz"
                 f.write(f'#EXTM3U x-tvg-url="{epg_urls}"\n')
                 
-                for ch in processed_channels:
-                    f.write(f'#EXTVLCOPT:http-user-agent={USER_AGENT}\n')
-                    # Format: #EXTINF:-1 tvg-id="..." tvg-name="..." tvg-logo="..." group-title="...",NAME
-                    # User requested clean name from EPG (e.g. "Rai 1")
-                    # Set tvg-name to the clean name as well, as some players display this instead of the comma-title
-                    header = f'#EXTINF:-1 tvg-id="{ch["tvg_id"]}" tvg-name="{ch["clean_name"]}" tvg-logo="{ch["final_logo"]}" group-title="{ch["group"]}",{ch["clean_name"]}'
+                for idx, ch in enumerate(processed_channels, 1):
+                    if not is_xc:
+                        # Standard Format: include EXTVLCOPT
+                        f.write(f'#EXTVLCOPT:http-user-agent={USER_AGENT}\n')
+                        header = f'#EXTINF:-1 tvg-id="{ch["tvg_id"]}" tvg-name="{ch["clean_name"]}" tvg-logo="{ch["final_logo"]}" group-title="{ch["group"]}",{ch["clean_name"]}'
+                    else:
+                        # XCIPTV Format: UA in header, no EXTVLCOPT, add tvg-chno
+                        header = f'#EXTINF:-1 tvg-id="{ch["tvg_id"]}" tvg-name="{ch["clean_name"]}" tvg-logo="{ch["final_logo"]}" tvg-chno="{idx}" group-title="{ch["group"]}" http-user-agent="{USER_AGENT}",{ch["clean_name"]}'
+                    
                     f.write(f"{header}\n")
                     f.write(f"{ch['url']}\n")
                     

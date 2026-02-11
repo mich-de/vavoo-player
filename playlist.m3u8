@@ -375,6 +375,9 @@ https://vavoo.to/vavoo-iptv/play/344556251909fe0b312736
 #EXTINF:-1 tvg-id="SkySportArena.it" tvg-name="Sky Sport Arena" tvg-logo="logos/SkySportArena.it.png" group-title="Sport",Sky Sport Arena
 https://vavoo.to/vavoo-iptv/play/3007400791d5bc640207c3
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="SkySportArena.it" tvg-name="Sky Sport Arena" tvg-logo="logos/SkySportArena.it.png" group-title="Sport",Sky Sport Arena
+https://vavoo.to/vavoo-iptv/play/25559607139e6fd9b93dd6
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkySportCalcio.it" tvg-name="Sky Sport Calcio" tvg-logo="logos/SkySportCalcio.it.png" group-title="Sport",Sky Sport Calcio
 https://vavoo.to/vavoo-iptv/play/1665920101d5db640ce7e6
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -525,6 +528,9 @@ https://vavoo.to/vavoo-iptv/play/1611446752ef81feae9ae
 #EXTINF:-1 tvg-id="BERGAMO TV" tvg-name="BERGAMO TV" tvg-logo="" group-title="Other",BERGAMO TV
 https://vavoo.to/vavoo-iptv/play/2476433040575c4662d870
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="BIKE" tvg-name="BIKE" tvg-logo="" group-title="Other",BIKE
+https://vavoo.to/vavoo-iptv/play/309589541224b3a9c5030f
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="BLAZE" tvg-name="BLAZE" tvg-logo="" group-title="Other",BLAZE
 https://vavoo.to/vavoo-iptv/play/25326356590c9338734e4b
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -563,9 +569,6 @@ https://vavoo.to/vavoo-iptv/play/390600788675c13850cd70
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="CANALE 21 EXTRA" tvg-name="CANALE 21 EXTRA" tvg-logo="" group-title="Other",CANALE 21 EXTRA
 https://vavoo.to/vavoo-iptv/play/24545581364a76ecd911e4
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="CANALE 7" tvg-name="CANALE 7" tvg-logo="" group-title="Other",CANALE 7
-https://vavoo.to/vavoo-iptv/play/565256431b8fb5052f1a2
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="CANALE 7" tvg-name="CANALE 7" tvg-logo="" group-title="Other",CANALE 7
 https://vavoo.to/vavoo-iptv/play/996680722dbf763c9bb56
@@ -623,6 +626,9 @@ https://vavoo.to/vavoo-iptv/play/861948627bb3b2465ad5a
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="DEEJAY TV" tvg-name="DEEJAY TV" tvg-logo="" group-title="Other",DEEJAY TV
 https://vavoo.to/vavoo-iptv/play/963607327f90ada131395
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="DEEJAY TV" tvg-name="DEEJAY TV" tvg-logo="" group-title="Other",DEEJAY TV
+https://vavoo.to/vavoo-iptv/play/3802167244650eb7a51319
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="DISNEY FILM" tvg-name="DISNEY FILM" tvg-logo="" group-title="Other",DISNEY FILM
 https://vavoo.to/vavoo-iptv/play/1264775727d4145aa36927
@@ -950,9 +956,6 @@ https://vavoo.to/vavoo-iptv/play/88205050e85664590a6b
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SUPER" tvg-name="SUPER" tvg-logo="" group-title="Other",SUPER
 https://vavoo.to/vavoo-iptv/play/3550030443fb56cbe586ef
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SUPER" tvg-name="SUPER" tvg-logo="" group-title="Other",SUPER
-https://vavoo.to/vavoo-iptv/play/2900362153b8a056cb86c0
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SUPER TV ARISTANIS" tvg-name="SUPER TV ARISTANIS" tvg-logo="" group-title="Other",SUPER TV ARISTANIS
 https://vavoo.to/vavoo-iptv/play/11653719d8ef305a8c92
