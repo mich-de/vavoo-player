@@ -3,3 +3,5 @@ python-vlc
 requests
 python-mpv
 tzdata
+flask
+waitress
