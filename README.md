@@ -1,5 +1,8 @@
 # Pro IPTV Player (Vavoo Edition)
 
+> [!WARNING]
+> **Educational Purpose Only:** This project is provided strictly for educational and research purposes. Use of this software for any other purpose is strongly discouraged. The authors are not responsible for how this software is used.
+
 A modern, standalone desktop IPTV player built with Python and Qt6, designed to work seamlessly with Vavoo streams.
 
 ## Features
