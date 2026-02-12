@@ -1,5 +1,6 @@
 # Implementation Plan: Fix GitHub Action Push
 
-- [ ] Fix indentation in `generate_playlist.yml`.
-- [ ] Update push logic to use `secrets.GITHUB_TOKEN` with automatic credentials.
+- [x] Fix indentation in `generate_playlist.yml`.
+- [/] Upgrade to `actions/checkout@v4` and ensure robust push.
+- [ ] User must enable **Read and write permissions** in **Settings > Actions > General**.
 - [ ] Verify that the `contents: write` permission is effective.
