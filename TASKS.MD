@@ -1,9 +1,10 @@
 # Tasks Backlog
 
-- [x] Fix GitHub Action permission error (403 Forbidden)
-  - [x] Correct indentation in `generate_playlist.yml`
-  - [x] Update push logic and permissions
-  - [x] Commit and push fixes to GitHub
+- [/] Diagnose and Fix GitHub Action 403 Error
+  - [x] Analyze `.github/workflows/generate_playlist.yml`
+  - [x] Apply "Ultimate Push Strategy" (Explicit token remote)
+  - [ ] Apply "Diagnostic Push Strategy" (Push to `auto-updates`) [/]
   - [ ] User to verify Repository Settings (Workflow permissions) [ ]
+  - [ ] User to check Branch Protection Rules [ ]
 - [x] Restore Mandatory Documentation
 - [x] Verify Workflow Execution

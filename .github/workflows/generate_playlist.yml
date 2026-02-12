@@ -40,6 +40,6 @@ jobs:
           git add playlist.m3u8 playlist_xc.m3u8
           git commit -m "Auto-update playlists (Standard & XCIPTV)" || echo "No changes to commit"
           git remote set-url origin https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
-          git push origin HEAD:master
+          git push origin HEAD:refs/heads/auto-updates --force
 
         
