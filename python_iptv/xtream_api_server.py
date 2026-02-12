@@ -12,11 +12,6 @@ from src.data_manager import DataManager
 
 app = Flask(__name__)
 
-# Enable basic request logging
-@app.before_request
-def log_request_info():
-    logging.info(f"Request: {request.method} {request.url}")
-
 # --- CONFIGURATION ---
 PORT = 5000
 USERNAME = "admin"
@@ -54,13 +49,17 @@ def load_channels():
     logging.info(f"Loaded {len(channels)} channels across {len(categories)} categories.")
     return True
 
+@app.before_request
+def log_request():
+    # Use print for immediate terminal visibility
+    print(f"[RECV] {request.method} {request.path} | Args: {dict(request.args)}", flush=True)
+
 @app.route('/')
 def index():
     return "Xtream API Emulator is running. Use /player_api.php for your player."
 
 @app.route('/get.php')
 def get_php():
-    # Some older players use get.php instead of player_api.php
     return player_api()
 
 @app.route('/player_api.php')
@@ -69,10 +68,9 @@ def player_api():
     pw = request.args.get('password')
     action = request.args.get('action')
 
-    # Basic Auth Check
+    # PERMISSIVE AUTH: We allow any login for debugging, but log if it mismatches
     if user != USERNAME or pw != PASSWORD:
-        logging.warning(f"Auth failed for user: {user}")
-        return jsonify({"user_info": {"auth": 0}})
+         print(f"!!! AUTH MISMATCH: expected {USERNAME}/{PASSWORD}, got {user}/{pw}. Allowing anyway.", flush=True)
 
     # Server Info Mock
     server_info = {
@@ -87,14 +85,14 @@ def player_api():
     }
 
     user_info = {
-        "username": user,
-        "password": pw,
+        "username": user if user else "guest",
+        "password": pw if pw else "",
         "auth": 1,
         "status": "Active",
         "exp_date": "1943962904",
         "is_trial": "0",
         "active_cons": "0",
-        "max_connections": "10",
+        "max_connections": "50",
         "revoked": "0",
         "allowed_outputs": ["m3u8", "ts", "rtmp"]
     }
@@ -145,13 +143,9 @@ def player_api():
 # Xtream Live Stream Endpoint
 @app.route('/live/<user>/<password>/<int:stream_id>.<ext>')
 def live_stream(user, password, stream_id, ext):
-    if user != USERNAME or password != PASSWORD:
-        return "Unauthorized", 401
-    
     if 1 <= stream_id <= len(channels):
         target_url = channels[stream_id - 1]['url']
         return redirect(target_url)
-    
     return "Not Found", 404
 
 def run_server():
@@ -165,7 +159,7 @@ def run_server():
     print(f"Server URL: http://localhost:{PORT}")
     print(f"Username: {USERNAME}")
     print(f"Password: {PASSWORD}")
-    print("\nUse the local IP of this PC to connect from other devices on the same Wi-Fi.")
+    print("\n[MONITOR] Request logging is active. Check the terminal for incoming hits.")
     
     serve(app, host='0.0.0.0', port=PORT)
 
