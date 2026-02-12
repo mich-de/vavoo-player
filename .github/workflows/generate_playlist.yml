@@ -1,21 +1,17 @@
 name: Generate Playlist
-permissions:
-  contents: write
-
-on:
-  schedule:
-    - cron: '0 0 * * *' # Daily at midnight
-  workflow_dispatch: # Allow manual trigger
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ github.token }}
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
