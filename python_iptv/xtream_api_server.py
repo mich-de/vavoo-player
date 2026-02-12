@@ -12,6 +12,11 @@ from src.data_manager import DataManager
 
 app = Flask(__name__)
 
+# Enable basic request logging
+@app.before_request
+def log_request_info():
+    logging.info(f"Request: {request.method} {request.url}")
+
 # --- CONFIGURATION ---
 PORT = 5000
 USERNAME = "admin"
@@ -49,6 +54,15 @@ def load_channels():
     logging.info(f"Loaded {len(channels)} channels across {len(categories)} categories.")
     return True
 
+@app.route('/')
+def index():
+    return "Xtream API Emulator is running. Use /player_api.php for your player."
+
+@app.route('/get.php')
+def get_php():
+    # Some older players use get.php instead of player_api.php
+    return player_api()
+
 @app.route('/player_api.php')
 def player_api():
     user = request.args.get('username')
@@ -57,6 +71,7 @@ def player_api():
 
     # Basic Auth Check
     if user != USERNAME or pw != PASSWORD:
+        logging.warning(f"Auth failed for user: {user}")
         return jsonify({"user_info": {"auth": 0}})
 
     # Server Info Mock
@@ -145,7 +160,6 @@ def run_server():
     
     if not load_channels():
         print("Error: Could not load playlist.m3u8. Make sure to generate it first.")
-        # sys.exit(1) # Don't exit, maybe it will be generated later
         
     print(f"\nXtream API Emulator started!")
     print(f"Server URL: http://localhost:{PORT}")
