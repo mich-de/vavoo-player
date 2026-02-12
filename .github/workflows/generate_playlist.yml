@@ -34,7 +34,7 @@ jobs:
 
     - name: Commit and Push changes
       run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.email "mic.deangelis@gmail.com"
         git config --local user.name "github-actions[bot]"
         git add playlist.m3u8 playlist_xc.m3u8
         git commit -m "Auto-update playlists (Standard & XCIPTV)" || echo "No changes to commit"
