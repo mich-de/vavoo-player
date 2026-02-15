@@ -5,19 +5,19 @@ on:
     - cron: '0 0 * * *' # Daily at midnight
   workflow_dispatch: # Allow manual trigger
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           token: ${{ github.token }}
-          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -35,13 +35,15 @@ jobs:
 
       - name: Commit and Push changes
         run: |
-          echo "DIAGNOSTIC: Running 'Ultimate Push' version 4"
-          echo "DIAGNOSTIC: Current branch is $(git branch --show-current)"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          
+          # Check if there are changes
+          if git diff --quiet playlist.m3u8 playlist_xc.m3u8; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
           git add playlist.m3u8 playlist_xc.m3u8
-          git commit -m "Auto-update playlists (Standard & XCIPTV)" || echo "No changes to commit"
-          git remote set-url origin https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
-          git push origin HEAD:refs/heads/auto-updates --force --verbose
-
-        
+          git commit -m "Auto-update playlists (Standard & XCIPTV) [skip ci]"
+          git push

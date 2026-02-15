@@ -1,23 +1,45 @@
+"""
+Data Manager - Handles channel data and EPG integration.
+
+This module provides backward-compatible interface while using
+the optimized EPGManager for EPG operations.
+"""
+
 import os
-import gzip
-import requests
-import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
-import io
 import re
 import logging
-import sys
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+from pathlib import Path
+from typing import Optional, Dict, List, Tuple, Any
+
+# Import optimized EPG manager
+from src.epg_manager import EPGManager, EPGSource, load_epg_data
+
 
 class DataManager:
-    def __init__(self):
-        self.channels = []
-        self.epg_data = {}  # {channel_id: [programs]}
-        self.epg_channels = {} # {id: name}
-        self.epg_names = {} # {id: display_name}
-        self.epg_icons = {} # {id: icon_src}
-        self.user_agent = "VAVOO/2.6" # Default backup
-        self.logos_map = {} # {norm_name: logo_path}
+    """
+    Manages channel data, EPG information, and logo mappings.
+    
+    Provides backward-compatible interface for existing code while
+    using the optimized EPGManager internally.
+    """
+    
+    def __init__(self, cache_dir: Optional[Path] = None, cache_ttl_hours: int = 12):
+        self.channels: List[Dict[str, Any]] = []
+        self.user_agent = "VAVOO/2.6"
+        self.logos_map: Dict[str, str] = {}
+        
+        # Initialize optimized EPG manager
+        self._epg_manager: Optional[EPGManager] = None
+        self._cache_dir = cache_dir
+        self._cache_ttl = cache_ttl_hours
+        
+        # Legacy compatibility attributes
+        self.epg_data: Dict[str, List[Dict]] = {}
+        self.epg_channels: Dict[str, str] = {}
+        self.epg_names: Dict[str, str] = {}
+        self.epg_icons: Dict[str, str] = {}
         
         self._load_local_logos()
 
@@ -29,18 +51,16 @@ class DataManager:
         
         for filename in os.listdir(logos_dir):
             if filename.endswith(('.png', '.svg', '.jpg')):
-                # Normalize filename for matching
-                # Remove extension and replace hyphens/underscores with spaces
                 base = os.path.splitext(filename)[0]
                 norm_base = re.sub(r'[^A-Z0-9]', '', base.upper())
-                # Also handle common patterns like '-it' at the end
                 norm_base = re.sub(r'IT$', '', norm_base)
                 self.logos_map[norm_base] = os.path.join(logos_dir, filename)
 
-    def find_logo(self, norm_name):
+    def find_logo(self, norm_name: str) -> Optional[str]:
         """Attempts to find a matching logo path."""
-        if not norm_name: return None
-        # Try direct match
+        if not norm_name:
+            return None
+        
         snorm = re.sub(r'[^A-Z0-9]', '', norm_name)
         if snorm in self.logos_map:
             return self.logos_map[snorm]
@@ -51,45 +71,45 @@ class DataManager:
                 return self.logos_map[key]
         return None
 
-    def get_clean_epg_name(self, epg_id):
+    def get_clean_epg_name(self, epg_id: str) -> Optional[str]:
         """Returns the display name from EPG, stripping 'IT - ' prefix."""
-        if not epg_id: return None
+        if not epg_id:
+            return None
+        
         raw_name = self.epg_names.get(epg_id)
-        if not raw_name: return None
+        if not raw_name:
+            return None
         
         # Remove "IT - " or "CH - " prefix if present
         clean_name = re.sub(r'^(IT|CH)\s*-\s*', '', raw_name, flags=re.IGNORECASE)
         return clean_name.strip()
 
-    def normalize_name(self, name):
+    def normalize_name(self, name: str) -> str:
         """Normalizes channel name for better EPG matching."""
-        if not name: return ""
+        if not name:
+            return ""
+        
         n = name.upper().strip()
         
-        # Remove explicit country codes or extensions if at end e.g. " .IT", " .c"
-        # Matches space + dot + 1-3 letters
+        # Remove explicit country codes or extensions
         n = re.sub(r'\s+\.[A-Z]{1,3}$', '', n)
         
-        # Remove Vavoo specific suffixes " C", " S", " T" if they appear without dot
+        # Remove Vavoo specific suffixes
         n = re.sub(r'\s+[CST]$', '', n)
         
         # Remove parentheses/brackets
         n = re.sub(r'\[.*?\]', '', n)
         n = re.sub(r'\(.*?\)', '', n)
         
-        # Specific fix for "Rai 1 HD 101" -> "RAI 1"
-        # Remove "HD", "FHD", "SD", "HEVC", "H265", and all text following it
-        # KEEP 4K to distinguish Rai 4K
+        # Remove quality suffixes
         n = re.sub(r'\s+(HD|FHD|SD|HEVC|H265).*', '', n)
         
-        # Remove special chars AND spaces (e.g. "Rai 1" -> "RAI1" matches EPG "Rai1")
+        # Remove special chars AND spaces
         n = re.sub(r'[^A-Z0-9]', '', n)
         
-        n = n.strip()
-        # logging.debug(f"NORM: '{name}' -> '{n}'")
-        return n
+        return n.strip()
 
-    def parse_m3u8(self, file_path):
+    def parse_m3u8(self, file_path: str) -> Tuple[List[Dict], Optional[str]]:
         """Parses the local M3U8 file generated by the skill."""
         self.channels = []
         epg_url = None
@@ -118,7 +138,7 @@ class DataManager:
                     # Extract tvg-id
                     match_id = re.search(r'tvg-id="([^"]*)"', line)
                     current_channel['id'] = match_id.group(1) if match_id else None
-                        
+                    
                     # Extract Logo
                     match_logo = re.search(r'tvg-logo="([^"]*)"', line)
                     current_channel['logo'] = match_logo.group(1) if match_logo else None
@@ -132,7 +152,6 @@ class DataManager:
                     match_group = re.search(r'group-title="([^"]*)"', line)
                     current_channel['group'] = match_group.group(1) if match_group else "Uncategorized"
                     
-                    
                 elif line.startswith("#EXTVLCOPT:http-user-agent="):
                     self.user_agent = line.split('=')[1].strip()
                     
@@ -140,7 +159,6 @@ class DataManager:
                     if current_channel:
                         current_channel['url'] = line
                         current_channel['user_agent'] = self.user_agent
-                        # If ID is missing, use normalized name
                         if not current_channel.get('id'):
                             current_channel['id'] = current_channel['norm_name']
                         self.channels.append(current_channel)
@@ -153,191 +171,118 @@ class DataManager:
             logging.error(f"Error parsing playlist: {e}")
             return [], None
 
-    def load_all_epgs(self):
-        """Loads EPG data from multiple sources with backup fallback."""
-        epg_sources = [
-            {
-                "name": "Italy",
-                "primary": "https://iptv-epg.org/files/epg-it.xml.gz",
-                "backup": "https://epgshare01.online/epgshare01/epg_ripper_IT1.xml.gz"
-            },
-            {
-                "name": "Swiss (RSI)",
-                "primary": "https://iptv-epg.org/files/epg-ch.xml.gz",
-                "backup": "https://epgshare01.online/epgshare01/epg_ripper_CH1.xml.gz"
-            }
-        ]
+    def load_all_epgs(self, force_refresh: bool = False) -> bool:
+        """Loads EPG data from multiple sources with caching.
+        
+        Args:
+            force_refresh: If True, ignore cache and download fresh.
+        """
+        try:
+            # Initialize EPG manager if not already done
+            if self._epg_manager is None:
+                self._epg_manager = EPGManager(
+                    cache_dir=self._cache_dir,
+                    cache_ttl_hours=self._cache_ttl,
+                    user_agent=self.user_agent
+                )
+            
+            # Load all EPG sources
+            success = self._epg_manager.load_all(force_refresh)
+            
+            if success:
+                # Sync to legacy format for backward compatibility
+                self._sync_to_legacy_format()
+                self._apply_epg_to_channels()
+            
+            return success
+            
+        except Exception as e:
+            logging.error(f"Failed to load EPG: {e}")
+            return False
 
-        for source in epg_sources:
-            logging.info(f"--- Loading EPG Source: {source['name']} ---")
-            
-            # Try Primary
-            try:
-                self._fetch_and_parse_epg(source['primary'], source['name'])
-            except Exception as e:
-                logging.warning(f"Primary EPG failed for {source['name']}: {e}")
-                
-            # Try Backup (Supplement/Merge)
-            if source.get('backup'):
-                logging.info(f"Loading backup EPG for {source['name']} to supplement data...")
-                try:
-                    self._fetch_and_parse_epg(source['backup'], source['name'])
-                except Exception as e2:
-                    logging.error(f"Backup EPG failed for {source['name']}: {e2}")
+    def _sync_to_legacy_format(self):
+        """Sync EPGManager data to legacy format for backward compatibility."""
+        if not self._epg_manager:
+            return
         
-        # After loading all, apply mappings to channels
-        self._apply_epg_to_channels()
-
-    def _fetch_and_parse_epg(self, url, source_name=""):
-        """Downloads and parses a single XMLTV GZ file, merging into storage."""
-        if not url: return
-
-        logging.info(f"Downloading EPG from {url}...")
+        # Clear existing data
+        self.epg_data = {}
+        self.epg_channels = {}
+        self.epg_names = {}
+        self.epg_icons = {}
         
-        headers = {'User-Agent': self.user_agent}
-        import urllib3
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        # Convert channels
+        for ch_id, info in self._epg_manager.channels.items():
+            self.epg_channels[ch_id] = info.display_name
+            self.epg_names[ch_id] = info.display_name
+            if info.icon:
+                self.epg_icons[ch_id] = info.icon
+            
+            # Also map normalized name to ID
+            self.epg_channels[info.normalized_name] = ch_id
         
-        # Download
-        with requests.get(url, headers=headers, timeout=15, verify=False, stream=True) as response:
-            response.raise_for_status()
-            total_length = response.headers.get('content-length')
-            
-            if total_length is None:
-                content = response.content
-            else:
-                dl = 0
-                total_length = int(total_length)
-                content = b''
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        content += chunk
-                        dl += len(chunk)
-                        # Minimal progress feedback
-        
-        logging.info(f"Download complete. Size: {len(content)} bytes.")
-        
-        if len(content) < 1024:
-            raise Exception(f"Downloaded EPG is too small ({len(content)} bytes). Assuming failure.")
-
-        logging.info("Decompressing EPG...")
-        # Handle both .gz and plain .xml
-        if url.endswith('.gz'):
-             with gzip.GzipFile(fileobj=io.BytesIO(content)) as gz:
-                xml_content = gz.read()
-        else:
-             xml_content = content
-            
-        logging.info("Parsing XML EPG...")
-        root = ET.fromstring(xml_content)
-        
-        # MERGE: Store channel names (Append/Update)
-        count_ch = 0
-        for channel in root.findall('channel'):
-            c_id = channel.get('id')
-            display_name = channel.find('display-name')
-            if c_id and display_name is not None:
-                dname_text = display_name.text
-
-                # FILTER: Swiss Channels (RSI Only to avoid bloat)
-                if "Swiss" in source_name or "RSI" in source_name:
-                    norm_curr = self.normalize_name(dname_text)
-                    if norm_curr not in ["RSILA1", "RSILA2"]:
-                        continue
-
-                self.epg_channels[c_id] = dname_text
-                # Also map normalized name to ID
-                norm = self.normalize_name(dname_text)
-                self.epg_channels[norm] = c_id
-                self.epg_names[c_id] = dname_text
-                
-                # EXTRACT ICON
-                icon = channel.find('icon')
-                if icon is not None:
-                    src = icon.get('src')
-                    if src:
-                        self.epg_icons[c_id] = src
-                count_ch += 1
-                
-        logging.info(f"Merged {count_ch} channel names from this source.")
-        
-        # MERGE: Store Programs
-        count_prog = 0
-        for programme in root.findall('programme'):
-            channel_id = programme.get('channel')
-            start_str = programme.get('start')
-            stop_str = programme.get('stop')
-            
-            title_el = programme.find('title')
-            title = title_el.text if title_el is not None else "N/A"
-            
-            desc_el = programme.find('desc')
-            desc = desc_el.text if desc_el is not None else ""
-            
-            if channel_id not in self.epg_data:
-                self.epg_data[channel_id] = []
-                
-            self.epg_data[channel_id].append({
-                'start': start_str,
-                'stop': stop_str,
-                'title': title,
-                'desc': desc
-            })
-            count_prog += 1
-            
-        logging.info(f"Merged {count_prog} programs from this source.")
+        # Convert programs
+        for ch_id, programs in self._epg_manager.programs.items():
+            self.epg_data[ch_id] = [
+                {
+                    'start': p.start.strftime("%Y%m%d%H%M%S %z"),
+                    'stop': p.stop.strftime("%Y%m%d%H%M%S %z"),
+                    'title': p.title,
+                    'desc': p.desc
+                }
+                for p in programs
+            ]
 
     def _apply_epg_to_channels(self):
         """Updates channel names based on loaded EPG data."""
         matches = 0
         for ch in self.channels:
-            # Look up EPG ID using normalized name
             norm = ch.get('norm_name')
             epg_id = self.epg_channels.get(norm)
             
             if epg_id:
-                # Get official display name
                 real_name = self.epg_names.get(epg_id)
                 if real_name:
                     ch['name'] = real_name
                     matches += 1
                 
-                # Apply EPG Icon if available
                 epg_icon = self.epg_icons.get(epg_id)
                 if epg_icon:
                     ch['logo'] = epg_icon
         
         logging.info(f"Updated {matches} channel names from all EPGs.")
 
-    # Legacy method kept for compatibility
-    def load_epg(self, url):
-        self._fetch_and_parse_epg(url)
-        self._apply_epg_to_channels()
+    def load_epg(self, url: str):
+        """Legacy method for backward compatibility."""
+        logging.warning("load_epg(url) is deprecated, use load_all_epgs() instead")
+        self.load_all_epgs()
 
     @staticmethod
-    def get_current_time_cest():
+    def get_current_time_cest() -> datetime:
         """Returns current time in Europe/Rome timezone (CET/CEST)."""
         return datetime.now(ZoneInfo("Europe/Rome"))
 
-    def get_current_program(self, channel_id, norm_name=None):
+    def get_current_program(self, channel_id: str, 
+                            norm_name: str = None) -> Tuple[Optional[str], Optional[str], Optional[datetime], Optional[datetime]]:
         """Finds the current running program using ID or normalized name.
-        Returns: (title, desc, start_dt, stop_dt)"""
-        now = datetime.now(timezone.utc)
         
-        # Try direct ID
+        Returns: (title, desc, start_dt, stop_dt)
+        """
+        # Use optimized EPG manager if available
+        if self._epg_manager:
+            return self._epg_manager.get_current_program(channel_id, norm_name)
+        
+        # Fallback to legacy implementation
+        now = datetime.now(timezone.utc)
         target_id = channel_id
         
-        # If no programs for this ID, try finding ID via normalized name
         if target_id not in self.epg_data and norm_name:
             target_id = self.epg_channels.get(norm_name)
-            
+        
         if not target_id or target_id not in self.epg_data:
-            if norm_name and "RAI" in norm_name:
-                logging.warning(f"EPG MISS: Channel '{norm_name}' not found in EPG (Found ID: {target_id})")
             return None, None, None, None
-            
-        programs = self.epg_data[target_id]
-        for prog in programs:
+        
+        for prog in self.epg_data[target_id]:
             try:
                 start_dt = self._parse_xmltv_date(prog['start'])
                 stop_dt = self._parse_xmltv_date(prog['stop'])
@@ -346,12 +291,26 @@ class DataManager:
                     return prog['title'], prog['desc'], start_dt, stop_dt
             except:
                 continue
-                
+        
         return "No Info Available", "", None, None
 
-    def _parse_xmltv_date(self, date_str):
+    def _parse_xmltv_date(self, date_str: str) -> Optional[datetime]:
+        """Parse XMLTV date format."""
         try:
             return datetime.strptime(date_str, "%Y%m%d%H%M%S %z")
         except:
             return None
 
+    def clear_epg_cache(self):
+        """Clear the EPG cache."""
+        if self._epg_manager:
+            self._epg_manager.clear_cache()
+            logging.info("EPG cache cleared")
+
+    def get_epg_stats(self) -> Dict[str, int]:
+        """Get EPG statistics."""
+        return {
+            'channels': len(self.epg_channels),
+            'programs': sum(len(p) for p in self.epg_data.values()),
+            'logos': len(self.logos_map)
+        }
