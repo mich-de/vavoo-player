@@ -33,10 +33,10 @@ https://vavoo.to/vavoo-iptv/play/110155966670807e698f7d
 #EXTINF:-1 tvg-id="Italia1.it" tvg-name="Italia 1" tvg-logo="logos/Italia1.it.png" group-title="TV Sat",Italia 1
 https://vavoo.to/vavoo-iptv/play/663536394520458805ef6
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Nove.it" tvg-name="Nove" tvg-logo="logos/Nove.it.png" group-title="TV Sat",Nove
+#EXTINF:-1 tvg-id="Nove.it" tvg-name="Nove" tvg-logo="" group-title="TV Sat",Nove
 https://vavoo.to/vavoo-iptv/play/1574591400f5a3b24c62fc
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Nove.it" tvg-name="Nove" tvg-logo="logos/Nove.it.png" group-title="TV Sat",Nove
+#EXTINF:-1 tvg-id="Nove.it" tvg-name="Nove" tvg-logo="" group-title="TV Sat",Nove
 https://vavoo.to/vavoo-iptv/play/867216452ba4d42b41ada
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="Rai4.it" tvg-name="Rai4" tvg-logo="logos/Rai4.it.png" group-title="TV Sat",Rai4
@@ -65,9 +65,6 @@ https://vavoo.to/vavoo-iptv/play/28617343009ba70ce123ce
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="RaiPremium.it" tvg-name="RaiPremium" tvg-logo="logos/RaiPremium.it.png" group-title="TV Sat",RaiPremium
 https://vavoo.to/vavoo-iptv/play/282845555296ba7681a581
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Mediaset.Extra.it" tvg-name="Mediaset Extra" tvg-logo="" group-title="Other",Mediaset Extra
-https://vavoo.to/vavoo-iptv/play/4774665319f73c392df0e
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="TV2000" tvg-name="TV2000" tvg-logo="" group-title="TV Sat",TV2000
 https://vavoo.to/vavoo-iptv/play/11337349729837365ad79b
@@ -165,13 +162,13 @@ https://vavoo.to/vavoo-iptv/play/1890950169c0c68782bbe1
 #EXTINF:-1 tvg-id="Frisbee.it" tvg-name="Frisbee" tvg-logo="" group-title="TV Sat",Frisbee
 https://vavoo.to/vavoo-iptv/play/1995860185ce22f3fae905
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Cartoonito.it" tvg-name="Cartoonito" tvg-logo="logos/Cartoonito.it.png" group-title="TV Sat",Cartoonito
+#EXTINF:-1 tvg-id="Cartoonito.it" tvg-name="Cartoonito" tvg-logo="" group-title="TV Sat",Cartoonito
 https://vavoo.to/vavoo-iptv/play/19872204364fe52737bf18
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Cartoonito.it" tvg-name="Cartoonito" tvg-logo="logos/Cartoonito.it.png" group-title="TV Sat",Cartoonito
+#EXTINF:-1 tvg-id="Cartoonito.it" tvg-name="Cartoonito" tvg-logo="" group-title="TV Sat",Cartoonito
 https://vavoo.to/vavoo-iptv/play/1907000512776efa40e32a
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Cartoonito.it" tvg-name="Cartoonito" tvg-logo="logos/Cartoonito.it.png" group-title="TV Sat",Cartoonito
+#EXTINF:-1 tvg-id="Cartoonito.it" tvg-name="Cartoonito" tvg-logo="" group-title="TV Sat",Cartoonito
 https://vavoo.to/vavoo-iptv/play/217871728282294e996afe
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="DMAX.it" tvg-name="DMAX" tvg-logo="logos/DMAX.it.png" group-title="TV Sat",DMAX
@@ -187,9 +184,6 @@ https://vavoo.to/vavoo-iptv/play/1613543898fd67f91cf2e0
 https://vavoo.to/vavoo-iptv/play/3538009430947511be2991
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkyCinemaAction.it" tvg-name="Sky Cinema Action" tvg-logo="logos/SkyCinemaAction.it.png" group-title="Cinema",Sky Cinema Action
-https://vavoo.to/vavoo-iptv/play/381279617198e7a1b969ee
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SkyCinemaAction.it" tvg-name="Sky Cinema Action" tvg-logo="logos/SkyCinemaAction.it.png" group-title="Cinema",Sky Cinema Action
 https://vavoo.to/vavoo-iptv/play/11441287266db50fc09b62
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkyCinemaAction.it" tvg-name="Sky Cinema Action" tvg-logo="logos/SkyCinemaAction.it.png" group-title="Cinema",Sky Cinema Action
@@ -202,9 +196,6 @@ https://vavoo.to/vavoo-iptv/play/1759653413f7025450e6b1
 https://vavoo.to/vavoo-iptv/play/352583705711c4cbe44bbb
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkyCinemaComedy.it" tvg-name="Sky Cinema Comedy" tvg-logo="logos/SkyCinemaComedy.it.png" group-title="Cinema",Sky Cinema Comedy
-https://vavoo.to/vavoo-iptv/play/500203271d58941028e95
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SkyCinemaComedy.it" tvg-name="Sky Cinema Comedy" tvg-logo="logos/SkyCinemaComedy.it.png" group-title="Cinema",Sky Cinema Comedy
 https://vavoo.to/vavoo-iptv/play/3131104474771735b548ce
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkyCinemaDrama.it" tvg-name="Sky Cinema Drama" tvg-logo="logos/SkyCinemaDrama.it.png" group-title="Cinema",Sky Cinema Drama
@@ -212,9 +203,6 @@ https://vavoo.to/vavoo-iptv/play/123553017707540030adf9
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkyCinemaDue.it" tvg-name="Sky Cinema Due" tvg-logo="logos/SkyCinemaDue.it.png" group-title="Cinema",Sky Cinema Due
 https://vavoo.to/vavoo-iptv/play/1228534500ffff855fff55
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SkyCinemaDue.it" tvg-name="Sky Cinema Due" tvg-logo="logos/SkyCinemaDue.it.png" group-title="Cinema",Sky Cinema Due
-https://vavoo.to/vavoo-iptv/play/2330574729acc52d969174
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkyCinemaFamily.it" tvg-name="Sky Cinema Family" tvg-logo="logos/SkyCinemaFamily.it.png" group-title="Cinema",Sky Cinema Family
 https://vavoo.to/vavoo-iptv/play/41579514488d1c92affa7
@@ -426,11 +414,8 @@ https://vavoo.to/vavoo-iptv/play/22890389722acc4573933d
 #EXTINF:-1 tvg-id="SKY SUPER TENNIS" tvg-name="SKY SUPER TENNIS" tvg-logo="" group-title="Sport",SKY SUPER TENNIS
 https://vavoo.to/vavoo-iptv/play/55828211836e421b20575
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="DAZN 1" tvg-name="DAZN 1" tvg-logo="" group-title="Sport",DAZN 1
-https://vavoo.to/vavoo-iptv/play/1376440573d46b3d682e20
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="DAZN 2" tvg-name="DAZN 2" tvg-logo="" group-title="Sport",DAZN 2
-https://vavoo.to/vavoo-iptv/play/3635062218e0132c616db
+#EXTINF:-1 tvg-id="DAZN" tvg-name="DAZN" tvg-logo="" group-title="Sport",DAZN
+https://vavoo.to/vavoo-iptv/play/2303792166c73d1b7a1439
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="PRIMA TV" tvg-name="PRIMA TV" tvg-logo="" group-title="Other",PRIMA TV
 https://vavoo.to/vavoo-iptv/play/530658045774685c88ed8
@@ -443,6 +428,9 @@ https://vavoo.to/vavoo-iptv/play/1955739367e1de6e90adc1
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="DISCOVERY CHANNEL" tvg-name="DISCOVERY CHANNEL" tvg-logo="" group-title="Documentary",DISCOVERY CHANNEL
 https://vavoo.to/vavoo-iptv/play/355484191439d5194fc358
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="DISCOVERY SCIENCE" tvg-name="DISCOVERY SCIENCE" tvg-logo="" group-title="Documentary",DISCOVERY SCIENCE
+https://vavoo.to/vavoo-iptv/play/5284308415938593b2e15
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="NAT GEO" tvg-name="NAT GEO" tvg-logo="" group-title="Documentary",NAT GEO
 https://vavoo.to/vavoo-iptv/play/1735702308f63b4637e8ce
@@ -476,9 +464,6 @@ https://vavoo.to/vavoo-iptv/play/80896559d4a6e09d36f1
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="51 RADIO TV" tvg-name="51 RADIO TV" tvg-logo="" group-title="Other",51 RADIO TV
 https://vavoo.to/vavoo-iptv/play/42162455520e0fbef4fafe
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="7 YOU  ME" tvg-name="7 YOU  ME" tvg-logo="" group-title="Other",7 YOU  ME
-https://vavoo.to/vavoo-iptv/play/178775175831e62385f371
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="7080IT" tvg-name="7080IT" tvg-logo="" group-title="Other",7080IT
 https://vavoo.to/vavoo-iptv/play/3701871205057c15adedda
@@ -569,6 +554,9 @@ https://vavoo.to/vavoo-iptv/play/390600788675c13850cd70
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="CANALE 21 EXTRA" tvg-name="CANALE 21 EXTRA" tvg-logo="" group-title="Other",CANALE 21 EXTRA
 https://vavoo.to/vavoo-iptv/play/24545581364a76ecd911e4
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="CANALE 7" tvg-name="CANALE 7" tvg-logo="" group-title="Other",CANALE 7
+https://vavoo.to/vavoo-iptv/play/565256431b8fb5052f1a2
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="CANALE 7" tvg-name="CANALE 7" tvg-logo="" group-title="Other",CANALE 7
 https://vavoo.to/vavoo-iptv/play/996680722dbf763c9bb56
@@ -867,9 +855,6 @@ https://vavoo.to/vavoo-iptv/play/1711134994a4ab3e165de3
 #EXTINF:-1 tvg-id="RADIONORBA.TV.it" tvg-name="RADIONORBA TV" tvg-logo="" group-title="Other",RADIONORBA TV
 https://vavoo.to/vavoo-iptv/play/26276627684bd1fbc5cb29
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="RAKUTEN FAMILY" tvg-name="RAKUTEN FAMILY" tvg-logo="" group-title="Other",RAKUTEN FAMILY
-https://vavoo.to/vavoo-iptv/play/3902650955a82543dc27a4
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="RDS SOCIAL" tvg-name="RDS SOCIAL" tvg-logo="" group-title="Other",RDS SOCIAL
 https://vavoo.to/vavoo-iptv/play/4031388312f5ebcfc7dc6d
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -956,6 +941,9 @@ https://vavoo.to/vavoo-iptv/play/88205050e85664590a6b
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SUPER" tvg-name="SUPER" tvg-logo="" group-title="Other",SUPER
 https://vavoo.to/vavoo-iptv/play/3550030443fb56cbe586ef
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="SUPER" tvg-name="SUPER" tvg-logo="" group-title="Other",SUPER
+https://vavoo.to/vavoo-iptv/play/2900362153b8a056cb86c0
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SUPER TV ARISTANIS" tvg-name="SUPER TV ARISTANIS" tvg-logo="" group-title="Other",SUPER TV ARISTANIS
 https://vavoo.to/vavoo-iptv/play/11653719d8ef305a8c92
