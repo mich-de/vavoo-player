@@ -324,12 +324,6 @@ https://vavoo.to/vavoo-iptv/play/22550838661912f18327a2
 #EXTINF:-1 tvg-id="SKY PRIMAFILA 5" tvg-name="SKY PRIMAFILA 5" tvg-logo="" group-title="Other",SKY PRIMAFILA 5
 https://vavoo.to/vavoo-iptv/play/29098187562943fdca9002
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SKY PRIMAFILA 6" tvg-name="SKY PRIMAFILA 6" tvg-logo="" group-title="Other",SKY PRIMAFILA 6
-https://vavoo.to/vavoo-iptv/play/325121729090a7b71fb865
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SKY PRIMAFILA 6" tvg-name="SKY PRIMAFILA 6" tvg-logo="" group-title="Other",SKY PRIMAFILA 6
-https://vavoo.to/vavoo-iptv/play/39395136840a7593b75855
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SKY PRIMAFILA 7" tvg-name="SKY PRIMAFILA 7" tvg-logo="" group-title="Other",SKY PRIMAFILA 7
 https://vavoo.to/vavoo-iptv/play/4238969402e69feff53112
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -375,11 +369,11 @@ https://vavoo.to/vavoo-iptv/play/344556251909fe0b312736
 #EXTINF:-1 tvg-id="SkySportArena.it" tvg-name="SKY SPORT ARENA" tvg-logo="logos/SkySportArena.it.png" group-title="Sport",SKY SPORT ARENA
 https://vavoo.to/vavoo-iptv/play/3007400791d5bc640207c3
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SkySportCalcio.it" tvg-name="SKY SPORT CALCIO" tvg-logo="logos/SkySportCalcio.it.png" group-title="Sport",SKY SPORT CALCIO
-https://vavoo.to/vavoo-iptv/play/1665920101d5db640ce7e6
+#EXTINF:-1 tvg-id="SkySportArena.it" tvg-name="SKY SPORT ARENA" tvg-logo="logos/SkySportArena.it.png" group-title="Sport",SKY SPORT ARENA
+https://vavoo.to/vavoo-iptv/play/25559607139e6fd9b93dd6
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkySportCalcio.it" tvg-name="SKY SPORT CALCIO" tvg-logo="logos/SkySportCalcio.it.png" group-title="Sport",SKY SPORT CALCIO
-https://vavoo.to/vavoo-iptv/play/449990998077a7691828f
+https://vavoo.to/vavoo-iptv/play/1665920101d5db640ce7e6
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkySportF1.it" tvg-name="SKY SPORT F1" tvg-logo="logos/SkySportF1.it.png" group-title="Sport",SKY SPORT F1
 https://vavoo.to/vavoo-iptv/play/42467740561588897497f2
@@ -402,6 +396,9 @@ https://vavoo.to/vavoo-iptv/play/2090703806f47d7eb551ce
 #EXTINF:-1 tvg-id="SKY SPORT NBA" tvg-name="SKY SPORT NBA" tvg-logo="" group-title="Sport",SKY SPORT NBA
 https://vavoo.to/vavoo-iptv/play/271195962000118dca31ce
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="SKY SPORT NBA" tvg-name="SKY SPORT NBA" tvg-logo="" group-title="Sport",SKY SPORT NBA
+https://vavoo.to/vavoo-iptv/play/3268253262aec282eb346
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkySportTennis.it" tvg-name="SKY SPORT TENNIS" tvg-logo="logos/SkySportTennis.it.png" group-title="Sport",SKY SPORT TENNIS
 https://vavoo.to/vavoo-iptv/play/210077178262e76f204fa6
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -419,6 +416,9 @@ https://vavoo.to/vavoo-iptv/play/22890389722acc4573933d
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SKY SUPER TENNIS" tvg-name="SKY SUPER TENNIS" tvg-logo="" group-title="Sport",SKY SUPER TENNIS
 https://vavoo.to/vavoo-iptv/play/55828211836e421b20575
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="DAZN" tvg-name="DAZN" tvg-logo="" group-title="Sport",DAZN
+https://vavoo.to/vavoo-iptv/play/2303792166c73d1b7a1439
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="DAZN 1" tvg-name="DAZN 1" tvg-logo="" group-title="Sport",DAZN 1
 https://vavoo.to/vavoo-iptv/play/1376440573d46b3d682e20
@@ -711,6 +711,9 @@ https://vavoo.to/vavoo-iptv/play/42489970292d2930202d0e
 #EXTINF:-1 tvg-id="HISTORY" tvg-name="HISTORY" tvg-logo="" group-title="Other",HISTORY
 https://vavoo.to/vavoo-iptv/play/3178376547e2dcc234152
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="HISTORY" tvg-name="HISTORY" tvg-logo="" group-title="Other",HISTORY
+https://vavoo.to/vavoo-iptv/play/2134724757fd92e3286ea6
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="ICARO TV" tvg-name="ICARO TV" tvg-logo="" group-title="Other",ICARO TV
 https://vavoo.to/vavoo-iptv/play/24880174054972ad3227fa
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -800,9 +803,6 @@ https://vavoo.to/vavoo-iptv/play/3889279895a867a5410d74
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="MTV" tvg-name="MTV" tvg-logo="" group-title="Other",MTV
 https://vavoo.to/vavoo-iptv/play/3212860676dcc8c28a2be1
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="MTV HITS" tvg-name="MTV HITS" tvg-logo="" group-title="Other",MTV HITS
-https://vavoo.to/vavoo-iptv/play/3446813098b031eef6dc22
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="NICK JR" tvg-name="NICK JR" tvg-logo="" group-title="Other",NICK JR
 https://vavoo.to/vavoo-iptv/play/38095847274e645e8a065
@@ -1136,9 +1136,6 @@ https://vavoo.to/vavoo-iptv/play/148874663839cdbe9a2d7e
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="UMBRIA TV" tvg-name="UMBRIA TV" tvg-logo="" group-title="Other",UMBRIA TV
 https://vavoo.to/vavoo-iptv/play/1597386407952db649a6ca
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="UMBRIA TV" tvg-name="UMBRIA TV" tvg-logo="" group-title="Other",UMBRIA TV
-https://vavoo.to/vavoo-iptv/play/2230919796f4c4a3b6f393
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="UNINETTUNO" tvg-name="UNINETTUNO" tvg-logo="" group-title="Other",UNINETTUNO
 https://vavoo.to/vavoo-iptv/play/797328723f4292436afc4
