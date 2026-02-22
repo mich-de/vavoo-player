@@ -519,10 +519,22 @@ class PlaylistGenerator:
             if ch.get('final_logo_override'):
                 logo_path = ch['final_logo_override'].replace("logos/", "https://github.com/mich-de/vavoo-player/blob/master/logos/") + "?raw=true"
             elif epg_id:
-                local_fname = f"{epg_id}.png"
-                full_logo_path = os.path.join(logos_dir, local_fname)
-                if os.path.exists(full_logo_path):
-                    logo_path = f"https://github.com/mich-de/vavoo-player/blob/master/logos/{local_fname}?raw=true"
+                # Case-insensitive match for local logos (crucial for Linux/GitHub Actions)
+                target_fname = f"{epg_id}.png".lower()
+                matched_file = None
+                
+                try:
+                    if os.path.exists(logos_dir):
+                        for f in os.listdir(logos_dir):
+                            if f.lower() == target_fname:
+                                matched_file = f
+                                break
+                except Exception as e:
+                    logging.error(f"Error scanning logos directory: {e}")
+
+                if matched_file:
+                    logo_path = f"https://github.com/mich-de/vavoo-player/blob/master/logos/{matched_file}?raw=true"
+            
             
             
             ch['norm_name'] = norm_name
