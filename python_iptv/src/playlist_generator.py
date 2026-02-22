@@ -60,7 +60,7 @@ EPG_MAP = {
     "RAI STORIA": "RaiStoria.it",
     "RAI SCUOLA": "RaiScuola.it",
     "RAI NEWS 24": "RaiNews.it",
-    "RAI SPORT": "RaiSport1.it",
+    "RAI SPORT": "Rai Sport + HD.it",
     "CANALE 5": "Canale5.it",
     "ITALIA 1": "Italia1.it",
     "RETE 4": "Rete4.it",
@@ -101,7 +101,7 @@ EPG_MAP = {
     "SKY SPORT UNO": "SkySportUno.it",
     "SKY SPORT CALCIO": "SkySportCalcio.it",
     "SKY SPORT F1": "SkySportF1.it",
-    "SKY SPORT MOTOGP": "SkySportMotoGP.it",
+    "SKY SPORT MOTO GP": "SkySportMotoGP.it",
     "SKY SPORT MOTO GP": "SkySportMotoGP.it",
     "SKY SPORT TENNIS": "SkySportTennis.it",
     "SKY SPORT ARENA": "SkySportArena.it",
@@ -450,6 +450,12 @@ class PlaylistGenerator:
             # BLACKLIST
             if "RAI ITALIA" in norm_name:
                 continue
+            if "STAR CRIME" in norm_name:
+                continue
+            if "SKYSHOWTIME 1" in norm_name:
+                continue
+            if "SKY SPORT FOOTBALL" in norm_name:
+                continue
             
             # RENAME
             if norm_name == "RAI":
@@ -466,7 +472,21 @@ class PlaylistGenerator:
                 norm_name = "K2"
             elif norm_name == "DISCOVERY FOCUS":
                 norm_name = "FOCUS"
-
+            elif norm_name == "MEDIASET IRIS":
+                norm_name = "IRIS"
+            elif norm_name == "MEDIASET ITALIA 2":
+                norm_name = "ITALIA 2"
+            elif norm_name == "SKY CINEMA UNO 24":
+                norm_name = "SKY CINEMA UNO"
+            elif norm_name == "SKY CRIME":
+                norm_name = "TOP CRIME"
+            elif norm_name == "PREMIUM CRIME":
+                norm_name = "TOP CRIME"
+            elif norm_name == "SKY SPORT MOTOGP":
+                norm_name = "SKY SPORT MOTO GP"
+            elif norm_name == "RAI SPORT":
+                ch['final_logo_override'] = "logos/rai-sport-hd-it.svg"
+            
             category = self._get_category(norm_name)
             priority = self._get_priority(norm_name)
             
