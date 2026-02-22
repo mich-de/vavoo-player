@@ -426,13 +426,13 @@ https://vavoo.to/vavoo-iptv/play/22890389722acc4573933d
 #EXTINF:-1 tvg-id="SKY SUPER TENNIS" tvg-name="SKY SUPER TENNIS" tvg-logo="" group-title="Sport",SKY SUPER TENNIS
 https://vavoo.to/vavoo-iptv/play/55828211836e421b20575
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="DAZN.it" tvg-name="DAZN.it" tvg-logo="" group-title="Sport",DAZN
+#EXTINF:-1 tvg-id="DAZN" tvg-name="DAZN" tvg-logo="" group-title="Sport",DAZN
 https://vavoo.to/vavoo-iptv/play/2303792166c73d1b7a1439
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="DAZN.it" tvg-name="DAZN.it" tvg-logo="" group-title="Sport",DAZN 1
+#EXTINF:-1 tvg-id="DAZN 1" tvg-name="DAZN 1" tvg-logo="" group-title="Sport",DAZN 1
 https://vavoo.to/vavoo-iptv/play/1376440573d46b3d682e20
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="DAZN.it" tvg-name="DAZN.it" tvg-logo="" group-title="Sport",DAZN 2
+#EXTINF:-1 tvg-id="DAZN 2" tvg-name="DAZN 2" tvg-logo="" group-title="Sport",DAZN 2
 https://vavoo.to/vavoo-iptv/play/3635062218e0132c616db
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="PRIMA TV" tvg-name="PRIMA TV" tvg-logo="" group-title="Other",PRIMA TV
@@ -446,9 +446,6 @@ https://vavoo.to/vavoo-iptv/play/1955739367e1de6e90adc1
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="DISCOVERY CHANNEL" tvg-name="DISCOVERY CHANNEL" tvg-logo="" group-title="Documentary",DISCOVERY CHANNEL
 https://vavoo.to/vavoo-iptv/play/355484191439d5194fc358
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="DISCOVERY SCIENCE" tvg-name="DISCOVERY SCIENCE" tvg-logo="" group-title="Documentary",DISCOVERY SCIENCE
-https://vavoo.to/vavoo-iptv/play/5284308415938593b2e15
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="NAT GEO" tvg-name="NAT GEO" tvg-logo="" group-title="Documentary",NAT GEO
 https://vavoo.to/vavoo-iptv/play/1735702308f63b4637e8ce
@@ -669,9 +666,6 @@ https://vavoo.to/vavoo-iptv/play/422225837740225c1416e8
 #EXTINF:-1 tvg-id="EXTRA TV" tvg-name="EXTRA TV" tvg-logo="" group-title="Other",EXTRA TV
 https://vavoo.to/vavoo-iptv/play/33656973896c0d65694135
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="FANO TV" tvg-name="FANO TV" tvg-logo="" group-title="Other",FANO TV
-https://vavoo.to/vavoo-iptv/play/1798700028a88b50c2df9d
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="FASHION TV" tvg-name="FASHION TV" tvg-logo="" group-title="Other",FASHION TV
 https://vavoo.to/vavoo-iptv/play/3028319308fc52849f3d94
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -701,9 +695,6 @@ https://vavoo.to/vavoo-iptv/play/2481284739a17519532b56
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="GLOBUS TELEVISION" tvg-name="GLOBUS TELEVISION" tvg-logo="" group-title="Other",GLOBUS TELEVISION
 https://vavoo.to/vavoo-iptv/play/2116902817eb437d88bab6
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="GOLD TV" tvg-name="GOLD TV" tvg-logo="" group-title="Other",GOLD TV
-https://vavoo.to/vavoo-iptv/play/2854396316c4fc7fe60f75
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="GRANDUCATO" tvg-name="GRANDUCATO" tvg-logo="" group-title="Other",GRANDUCATO
 https://vavoo.to/vavoo-iptv/play/9421530140b5164a467be
@@ -918,6 +909,9 @@ https://vavoo.to/vavoo-iptv/play/2294009196bff728f2a31e
 #EXTINF:-1 tvg-id="RTP" tvg-name="RTP" tvg-logo="" group-title="Other",RTP
 https://vavoo.to/vavoo-iptv/play/4136045815a19e851236a3
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="RTR 99 TV" tvg-name="RTR 99 TV" tvg-logo="" group-title="Other",RTR 99 TV
+https://vavoo.to/vavoo-iptv/play/1621632780775ff4ee8846
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="RTTR" tvg-name="RTTR" tvg-logo="" group-title="Other",RTTR
 https://vavoo.to/vavoo-iptv/play/3799362189218b541a9c76
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -926,6 +920,9 @@ https://vavoo.to/vavoo-iptv/play/179187969291f776663d1e
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="RTV SAN MARINO" tvg-name="RTV SAN MARINO" tvg-logo="" group-title="Other",RTV SAN MARINO
 https://vavoo.to/vavoo-iptv/play/2343767125eb4977361e91
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="RTV SAN MARINO SPORT" tvg-name="RTV SAN MARINO SPORT" tvg-logo="" group-title="Other",RTV SAN MARINO SPORT
+https://vavoo.to/vavoo-iptv/play/11138532639c972f8c712f
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SAN MARINO RTV" tvg-name="SAN MARINO RTV" tvg-logo="" group-title="Other",SAN MARINO RTV
 https://vavoo.to/vavoo-iptv/play/968665235fe574bf09dcb
@@ -954,6 +951,9 @@ https://vavoo.to/vavoo-iptv/play/88205050e85664590a6b
 #EXTINF:-1 tvg-id="SUPER" tvg-name="SUPER" tvg-logo="" group-title="Other",SUPER
 https://vavoo.to/vavoo-iptv/play/3550030443fb56cbe586ef
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="SUPER" tvg-name="SUPER" tvg-logo="" group-title="Other",SUPER
+https://vavoo.to/vavoo-iptv/play/2900362153b8a056cb86c0
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SUPER TV ARISTANIS" tvg-name="SUPER TV ARISTANIS" tvg-logo="" group-title="Other",SUPER TV ARISTANIS
 https://vavoo.to/vavoo-iptv/play/11653719d8ef305a8c92
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -968,6 +968,9 @@ https://vavoo.to/vavoo-iptv/play/16683935829997b8a7bc92
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="TELE CHIARA" tvg-name="TELE CHIARA" tvg-logo="" group-title="Other",TELE CHIARA
 https://vavoo.to/vavoo-iptv/play/2487986216af30aedb116a
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="TELE CHIARA" tvg-name="TELE CHIARA" tvg-logo="" group-title="Other",TELE CHIARA
+https://vavoo.to/vavoo-iptv/play/2521825076452ac13ce197
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="TELE FRIULI" tvg-name="TELE FRIULI" tvg-logo="" group-title="Other",TELE FRIULI
 https://vavoo.to/vavoo-iptv/play/35518823447060ba68f520
@@ -1189,9 +1192,6 @@ https://vavoo.to/vavoo-iptv/play/36572179483992957fcd47
 https://vavoo.to/vavoo-iptv/play/83094948658201829f87a
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SUPER TENNIS" tvg-name="SUPER TENNIS" tvg-logo="" group-title="Sport",SUPER TENNIS
-https://vavoo.to/vavoo-iptv/play/3213195143c3be65cec024
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SUPER TENNIS" tvg-name="SUPER TENNIS" tvg-logo="" group-title="Sport",SUPER TENNIS
 https://vavoo.to/vavoo-iptv/play/300937751365646200d097
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="QVC" tvg-name="QVC" tvg-logo="" group-title="TV Sat",QVC
@@ -1223,3 +1223,6 @@ https://vavoo.to/vavoo-iptv/play/33428493134b007f2ed197
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SPORTITALIA SOLOCALCIO" tvg-name="SPORTITALIA SOLOCALCIO" tvg-logo="" group-title="TV Sat",SPORTITALIA SOLOCALCIO
 https://vavoo.to/vavoo-iptv/play/21984103395cacdfaf1d34
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="VH1.it" tvg-name="VH1" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/VH1.it.png?raw=true" group-title="TV Sat",VH1
+https://vavoo.to/vavoo-iptv/play/22376603018e09f8150d84
