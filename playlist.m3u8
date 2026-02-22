@@ -48,16 +48,16 @@ https://vavoo.to/vavoo-iptv/play/2179822223e6f7fefa408e
 #EXTINF:-1 tvg-id="" tvg-name="RAI 4K" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/Rai4k.it.png?raw=true" group-title="TV Sat",RAI 4K
 https://vavoo.to/vavoo-iptv/play/2049087681c31592c6b362
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Rai 5.it" tvg-name="RAI 5" tvg-logo="" group-title="TV Sat",RAI 5
+#EXTINF:-1 tvg-id="Rai5.it" tvg-name="Rai5.it" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/Rai5.it.png?raw=true" group-title="TV Sat",RAI 5
 https://vavoo.to/vavoo-iptv/play/3249873828c4ad4d2c1d15
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Rai 5.it" tvg-name="RAI 5" tvg-logo="" group-title="TV Sat",RAI 5
+#EXTINF:-1 tvg-id="Rai5.it" tvg-name="Rai5.it" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/Rai5.it.png?raw=true" group-title="TV Sat",RAI 5
 https://vavoo.to/vavoo-iptv/play/31633805432b7c33717323
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Rai Movie.it" tvg-name="RAI MOVIE" tvg-logo="" group-title="TV Sat",RAI MOVIE
+#EXTINF:-1 tvg-id="Rai Movie.it" tvg-name="Rai Movie.it" tvg-logo="" group-title="TV Sat",RAI MOVIE
 https://vavoo.to/vavoo-iptv/play/2835672487db54f8727bf9
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Rai Movie.it" tvg-name="RAI MOVIE" tvg-logo="" group-title="TV Sat",RAI MOVIE
+#EXTINF:-1 tvg-id="Rai Movie.it" tvg-name="Rai Movie.it" tvg-logo="" group-title="TV Sat",RAI MOVIE
 https://vavoo.to/vavoo-iptv/play/1925964148b9cb23cc2bce
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="Rai Premium.it" tvg-name="RAI PREMIUM" tvg-logo="" group-title="TV Sat",RAI PREMIUM
@@ -78,16 +78,16 @@ https://vavoo.to/vavoo-iptv/play/27199536882db77bf0ce4c
 #EXTINF:-1 tvg-id="Cielo.it" tvg-name="CIELO" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/cielo.it.png?raw=true" group-title="TV Sat",CIELO
 https://vavoo.to/vavoo-iptv/play/3743894403dc7e6005c138
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="20.it" tvg-name="20.it" tvg-logo="" group-title="TV Sat",20
+#EXTINF:-1 tvg-id="Mediaset20.it" tvg-name="Mediaset20.it" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/Mediaset20.it.png?raw=true" group-title="TV Sat",20
 https://vavoo.to/vavoo-iptv/play/12303381856673f2a33deb
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Rai Sport + HD.it" tvg-name="RAI SPORT" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/rai-sport-hd-it.svg?raw=true" group-title="TV Sat",RAI SPORT
+#EXTINF:-1 tvg-id="RAISport.it" tvg-name="RAISport.it" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/RAISport.it.png?raw=true" group-title="TV Sat",RAI SPORT
 https://vavoo.to/vavoo-iptv/play/29241350927e983d18bd31
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Rai Sport + HD.it" tvg-name="RAI SPORT" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/rai-sport-hd-it.svg?raw=true" group-title="TV Sat",RAI SPORT
+#EXTINF:-1 tvg-id="RAISport.it" tvg-name="RAISport.it" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/RAISport.it.png?raw=true" group-title="TV Sat",RAI SPORT
 https://vavoo.to/vavoo-iptv/play/55173022458f32c70e30a
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="Rai Sport + HD.it" tvg-name="RAI SPORT" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/rai-sport-hd-it.svg?raw=true" group-title="TV Sat",RAI SPORT
+#EXTINF:-1 tvg-id="RAISport.it" tvg-name="RAISport.it" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/RAISport.it.png?raw=true" group-title="TV Sat",RAI SPORT
 https://vavoo.to/vavoo-iptv/play/843891896d79f7a764c19
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="Iris.it" tvg-name="IRIS" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/Iris.it.png?raw=true" group-title="TV Sat",IRIS
