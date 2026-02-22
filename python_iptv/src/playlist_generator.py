@@ -492,12 +492,13 @@ class PlaylistGenerator:
             # Check local logo
             logo_path = ch['logo'] # Default to remote
             if ch.get('final_logo_override'):
-                logo_path = ch['final_logo_override']
+                logo_path = ch['final_logo_override'].replace("logos/", "https://github.com/mich-de/vavoo-player/blob/master/logos/") + "?raw=true"
             elif epg_id:
                 local_fname = f"{epg_id}.png"
                 full_logo_path = os.path.join(logos_dir, local_fname)
                 if os.path.exists(full_logo_path):
-                    logo_path = f"logos/{local_fname}"
+                    logo_path = f"https://github.com/mich-de/vavoo-player/blob/master/logos/{local_fname}?raw=true"
+            
             
             ch['norm_name'] = norm_name
             ch['group'] = category
