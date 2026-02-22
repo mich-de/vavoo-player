@@ -78,7 +78,7 @@ https://vavoo.to/vavoo-iptv/play/27199536882db77bf0ce4c
 #EXTINF:-1 tvg-id="Cielo.it" tvg-name="CIELO" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/cielo.it.png?raw=true" group-title="TV Sat",CIELO
 https://vavoo.to/vavoo-iptv/play/3743894403dc7e6005c138
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="20.it" tvg-name="20 MEDIASET" tvg-logo="" group-title="TV Sat",20 MEDIASET
+#EXTINF:-1 tvg-id="20.it" tvg-name="20.it" tvg-logo="" group-title="TV Sat",20
 https://vavoo.to/vavoo-iptv/play/12303381856673f2a33deb
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="Rai Sport + HD.it" tvg-name="RAI SPORT" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/rai-sport-hd-it.svg?raw=true" group-title="TV Sat",RAI SPORT
