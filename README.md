@@ -1,15 +1,15 @@
 # 📺 Vavoo IPTV Playlist Generator
 
-Generatore automatico di playlist M3U8 per canali IPTV italiani da sorgenti Vavoo, con mapping EPG completo e loghi.
+Automated M3U8 playlist generator for Italian IPTV channels from Vavoo sources, with full EPG mapping and logos.
 
-## ✨ Key Features
+## ✨ Features
 
-- **Generazione automatica** della playlist M3U8 con canali italiani
-- **Mapping EPG** completo da `iptv-epg.org` e `epgshare01.online`
-- **Loghi** per tutti i canali principali (RAI, Mediaset, Sky, DAZN, etc.)
-- **Categorizzazione** intelligente: TV Sat, Cinema, Sport, Kids, News, Documentary
-- **GitHub Actions** — la playlist si aggiorna automaticamente ogni giorno
-- **Ordinamento Tivùsat** — i canali seguono la numerazione ufficiale
+- **Automated generation** of M3U8 playlists with Italian channels
+- **Full EPG mapping** from `iptv-epg.org` and `epgshare01.online`
+- **Channel logos** for all major networks (RAI, Mediaset, Sky, DAZN, etc.)
+- **Smart categorization**: TV Sat, Cinema, Sport, Kids, News, Documentary
+- **GitHub Actions** — the playlist is auto-updated daily
+- **Tivùsat ordering** — channels follow the official numbering
 
 ## 🚀 Quick Start
 
@@ -34,7 +34,6 @@ python -m venv .venv
 
 ```
 --output PATH       Output file path (default: playlist.m3u8)
---xc-output PATH    Generate XCIPTV-compatible playlist
 --groups GROUP...   Groups to include (default: Italy)
 ```
 
