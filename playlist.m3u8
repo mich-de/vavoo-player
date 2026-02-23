@@ -363,10 +363,10 @@ https://vavoo.to/vavoo-iptv/play/17532606771304e2497369
 #EXTINF:-1 tvg-id="SkySerie.it" tvg-name="SKY SERIE" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/SkySerie.it.png?raw=true" channel="SkySerie.it" group-title="Other",SKY SERIE
 https://vavoo.to/vavoo-iptv/play/83668011205f936fa3b65
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SKY TG 24" tvg-name="SKY TG 24" tvg-logo="" channel="SKY TG 24" group-title="Other",SKY TG 24
+#EXTINF:-1 tvg-id="SkyTG24.it" tvg-name="SKY TG 24" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/SkyTG24.it?raw=true" channel="SKY TG 24" group-title="Other",SKY TG 24
 https://vavoo.to/vavoo-iptv/play/33760313550167605877f1
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SKY TG 24" tvg-name="SKY TG 24" tvg-logo="" channel="SKY TG 24" group-title="Other",SKY TG 24
+#EXTINF:-1 tvg-id="SkyTG24.it" tvg-name="SKY TG 24" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/SkyTG24.it?raw=tru" channel="SKY TG 24" group-title="Other",SKY TG 24
 https://vavoo.to/vavoo-iptv/play/3180571288b987548e3fe
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkyUno.it" tvg-name="SKY UNO" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/SkyUno.it.png?raw=true" channel="SkyUno.it" group-title="Other",SKY UNO
@@ -375,10 +375,10 @@ https://vavoo.to/vavoo-iptv/play/2130523218823893ad0255
 #EXTINF:-1 tvg-id="SkyUno.it" tvg-name="SKY UNO" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/SkyUno.it.png?raw=true" channel="SkyUno.it" group-title="Other",SKY UNO
 https://vavoo.to/vavoo-iptv/play/32202484989ac14421915
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SKY SPORT 24" tvg-name="SKY SPORT 24" tvg-logo="" channel="SKY SPORT 24" group-title="Sport",SKY SPORT 24
+#EXTINF:-1 tvg-id="SkySport24.it" tvg-name="SKY SPORT 24" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/SkySport24.it.png?raw=true" channel="SKY SPORT 24" group-title="Sport",SKY SPORT 24
 https://vavoo.to/vavoo-iptv/play/277580225585f503fbfc87
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="SKY SPORT 24" tvg-name="SKY SPORT 24" tvg-logo="" channel="SKY SPORT 24" group-title="Sport",SKY SPORT 24
+#EXTINF:-1 tvg-id="SkySport24.it" tvg-name="SKY SPORT 24" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/SkySport24.it.png?raw=true" channel="SKY SPORT 24" group-title="Sport",SKY SPORT 24
 https://vavoo.to/vavoo-iptv/play/344556251909fe0b312736
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SkySportArena.it" tvg-name="SKY SPORT ARENA" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/SkySportArena.it.png?raw=true" channel="SkySportArena.it" group-title="Sport",SKY SPORT ARENA
