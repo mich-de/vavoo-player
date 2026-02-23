@@ -73,7 +73,7 @@ EPG_MAP = {
     "REAL TIME": "RealTime.it",
     "FOCUS": "Focus.it",
     "DISCOVERY FOCUS": "Focus.it",
-    "GIALLO": "GIALLO.it",
+    "GIALLO": "Giallo.TV.it",
     "TOP CRIME": "TOPcrime.it",
     "BOING": "Boing.it",
     "BOING PLUS": "BoingPlus.it",

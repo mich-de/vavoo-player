@@ -2,7 +2,8 @@
 EPG Merger - Merges multiple XMLTV EPG sources into a single file.
 
 Downloads 4 EPG sources (IT primary/backup + CH primary/backup),
-filters CH to only RSI LA 1/LA 2, deduplicates channels and programmes,
+filters to only channels used in the playlist (from EPG_MAP),
+filters CH to only RSI LA 1/LA 2, deduplicates programmes,
 and outputs a single merged epg.xml.
 """
 
@@ -13,6 +14,7 @@ import xml.etree.ElementTree as ET
 from typing import Optional, Dict, Set, Tuple
 
 from src.epg_manager import EPGSource, EPGDownloader, EPGCache
+from src.playlist_generator import EPG_MAP
 
 
 # All 4 sources as separate entries for maximum coverage
@@ -23,30 +25,18 @@ EPG_SOURCES = [
     EPGSource(name="CH_backup", url="https://epgshare01.online/epgshare01/epg_ripper_CH1.xml.gz", priority=3),
 ]
 
-# Only keep these channels from CH sources
-CH_ALLOWED_IDS = {"RSI La 1.ch", "RSI La 2.ch", "RSILA1.ch", "RSILA2.ch"}
-CH_ALLOWED_NAMES = {"RSI LA 1", "RSI LA 2", "RSI LA1", "RSI LA2"}
+# Channel IDs actually used in the playlist
+PLAYLIST_CHANNEL_IDS = set(EPG_MAP.values())
+# Also include RSI IDs as they appear in CH EPG sources (different from .it suffixes)
+PLAYLIST_CHANNEL_IDS.update({"RSI.La.1.ch", "RSI.LA.2.ch", "RSI La 1.ch", "RSI La 2.ch"})
 
 
 def _is_ch_source(name: str) -> bool:
     return name.startswith("CH_")
 
 
-def _is_allowed_ch_channel(channel_elem: ET.Element) -> bool:
-    """Check if a CH channel is RSI LA 1 or RSI LA 2."""
-    ch_id = channel_elem.get("id", "")
-    if ch_id in CH_ALLOWED_IDS:
-        return True
-
-    for dn in channel_elem.findall("display-name"):
-        if dn.text and dn.text.strip().upper().replace("  ", " ") in {n.upper() for n in CH_ALLOWED_NAMES}:
-            return True
-    return False
-
-
 def _download_source(source: EPGSource, downloader: EPGDownloader, cache: EPGCache) -> Optional[bytes]:
     """Download and decompress a single EPG source with caching."""
-    # Try cache
     cached = cache.get_cached(source.name)
     if cached:
         logging.info(f"Using cached EPG for {source.name}")
@@ -65,19 +55,19 @@ def _download_source(source: EPGSource, downloader: EPGDownloader, cache: EPGCac
 def merge_epg(output_path: str) -> bool:
     """Merge all EPG sources into a single XMLTV file.
     
+    Only includes channels whose IDs appear in the playlist's EPG_MAP.
+    
     Returns True if at least one source was merged successfully.
     """
     downloader = EPGDownloader()
     cache = EPGCache()
 
-    # Merged data: channel_id -> channel XML element
     merged_channels: Dict[str, ET.Element] = {}
-    # programme key (channel, start) -> programme XML element
     merged_programmes: Dict[Tuple[str, str], ET.Element] = {}
-    # Track which channel IDs we've seen from CH (for programme filtering)
-    allowed_ch_channel_ids: Set[str] = set()
 
     sources_loaded = 0
+
+    logging.info(f"Filtering EPG to {len(PLAYLIST_CHANNEL_IDS)} channel IDs from playlist")
 
     for source in EPG_SOURCES:
         logging.info(f"Processing EPG source: {source.name}...")
@@ -93,27 +83,24 @@ def merge_epg(output_path: str) -> bool:
             logging.error(f"Failed to parse {source.name}: {e}")
             continue
 
-        is_ch = _is_ch_source(source.name)
         source_channels = 0
         source_programmes = 0
 
-        # Process channels
+        # Process channels — only keep those in our playlist
         for ch_elem in root.findall("channel"):
             ch_id = ch_elem.get("id")
             if not ch_id:
                 continue
 
-            if is_ch:
-                if not _is_allowed_ch_channel(ch_elem):
-                    continue
-                allowed_ch_channel_ids.add(ch_id)
+            # Only keep channels that are in our playlist's EPG_MAP
+            if ch_id not in PLAYLIST_CHANNEL_IDS:
+                continue
 
-            # Only add if not already present (first source wins for channel metadata)
             if ch_id not in merged_channels:
                 merged_channels[ch_id] = ch_elem
                 source_channels += 1
 
-        # Process programmes
+        # Process programmes — only keep those for our playlist channels
         for prog_elem in root.findall("programme"):
             ch_id = prog_elem.get("channel", "")
             start = prog_elem.get("start", "")
@@ -121,8 +108,7 @@ def merge_epg(output_path: str) -> bool:
             if not ch_id or not start:
                 continue
 
-            # Filter CH programmes to allowed channels only
-            if is_ch and ch_id not in allowed_ch_channel_ids:
+            if ch_id not in PLAYLIST_CHANNEL_IDS:
                 continue
 
             # Deduplicate by (channel_id, start)
@@ -144,22 +130,19 @@ def merge_epg(output_path: str) -> bool:
     out_root = ET.Element("tv")
     out_root.set("generator-info-name", "vavoo-epg-merger")
 
-    # Add channels first (sorted by ID for consistency)
     for ch_id in sorted(merged_channels.keys()):
         out_root.append(merged_channels[ch_id])
 
-    # Add programmes (sorted by channel + start for readability)
     for key in sorted(merged_programmes.keys()):
         out_root.append(merged_programmes[key])
 
-    # Write output
     tree = ET.ElementTree(out_root)
     ET.indent(tree, space="  ")
     
     with open(output_path, "wb") as f:
         f.write(b'<?xml version="1.0" encoding="UTF-8"?>\n')
         f.write(b'<!DOCTYPE tv SYSTEM "xmltv.dtd">\n')
-        tree.write(f, encoding="unicode" if False else "utf-8", xml_declaration=False)
+        tree.write(f, encoding="utf-8", xml_declaration=False)
 
     import os
     size_mb = os.path.getsize(output_path) / (1024 * 1024)
