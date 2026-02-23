@@ -39,7 +39,7 @@ BOUQUETS = {
     "TV Sat": ["RAI 1", "RAI 2", "RAI 3", "RETE 4", "CANALE 5", "ITALIA 1", "LA7", "TV8", "NOVE", "20 MEDIASET", "RAI 4", "IRIS", "LA5", "RAI 5", "RAI MOVIE", "RAI PREMIUM", "RAI GULP", "RAI YOYO", "RAI STORIA", "RAI SCUOLA", "RAI NEWS 24", "RAI SPORT", "SPORTITALIA", "TV2000", "CIELO", "DMAX", "REAL TIME", "QVC", "RTL 102.5", "RADIO ITALIA TV", "BOING", "K2", "FRISBEE", "CARTOONITO", "SUPER!", "SPIKE", "PARAMOUNT", "CINE34", "FOCUS", "TOP CRIME", "GIALLO", "TGCOM24", "VH1", "ITALIA 2", "SUPERTENNIS", "MOTOR TREND", "RAI 4K", "RSI LA 1", "RSI LA 2"],
     "Cinema": ["SKY CINEMA", "PREMIUM CINEMA"],
     "Sport": ["SKY SPORT", "DAZN", "EUROSPORT", "TENNIS", "MOTOGP", "F1", "CALCIO", "INTER", "MILAN", "JUVE"],
-    "Documentary": ["SKY DOCUMENTARIES", "SKY NATURE", "GEO", "DISCOVERY"],
+    "Documentary": ["SKY DOCUMENTARIES", "SKY NATURE", "GEO", "DISCOVERY", "HISTORY"],
     "News": ["SKY TG24", "EURONEWS", "BBC", "CNN", "CNBC"]
 }
 
@@ -138,8 +138,12 @@ EPG_MAP = {
     "FRANCE 24": "France24.it",
     "GAMBERO ROSSO HD": "GamberoRosso.it",
     "HGTV - HOMEANDGARDEN": "HGTV.it",
+    "HISTORY": "History.it",
     "HISTORY 1": "History.it",
     "HISTORY HD": "History.it",
+    "HISTORY .C": "History.it",
+    "HISTORY .S": "History.it",
+    "HISTORY CHANNEL .S": "History.it",
     "HORSE TV HD": "HorseTV.it",
     "I24NEWS": "i24news.it",
     "IL61": "IL61.it",
@@ -493,7 +497,8 @@ class PlaylistGenerator:
         n = re.sub(r'\s+(HD|FHD|SD|4K|ITA|ITALIA|BACKUP|TIMVISION|PLUS)$', '', n)
         
         # Handle Vavoo specific suffixes
-        n = re.sub(r'\s+\.[A-Z0-9]{1,3}$', '', n) # Remove " .c", " .s" (Upper because n is upper)
+        if not n.startswith("HISTORY"):
+            n = re.sub(r'\s+\.[A-Z0-9]{1,3}$', '', n) # Remove " .c", " .s" (Upper because n is upper)
         n = re.sub(r'\s+\+$', '', n)
         n = re.sub(r'[^A-Z0-9 ]', '', n)
         return n.strip()
