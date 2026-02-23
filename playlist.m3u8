@@ -1,4 +1,4 @@
-#EXTM3U x-tvg-url="https://iptv-epg.org/files/epg-it.xml.gz,https://iptv-epg.org/files/epg-ch.xml.gz,https://epgshare01.online/epgshare01/epg_ripper_IT1.xml.gz,https://epgshare01.online/epgshare01/epg_ripper_CH1.xml.gz"
+#EXTM3U x-tvg-url="https://raw.githubusercontent.com/mich-de/vavoo-player/master/epg.xml"
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="Rai1.it" tvg-name="RAI 1" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/Rai1.it.png?raw=true" channel="Rai1.it" group-title="TV Sat",RAI 1
 https://vavoo.to/vavoo-iptv/play/875922788627becc98639
@@ -529,6 +529,9 @@ https://vavoo.to/vavoo-iptv/play/3267376899f976b1a231c0
 https://vavoo.to/vavoo-iptv/play/1506307932300e27c2fd43
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="BabyTV.it" tvg-name="BABY TV" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/BabyTV.it.png?raw=true" channel="BabyTV.it" group-title="Other",BABY TV
+https://vavoo.to/vavoo-iptv/play/39385011257cd02ab803dc
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="BabyTV.it" tvg-name="BABY TV" tvg-logo="https://github.com/mich-de/vavoo-player/blob/master/logos/BabyTV.it.png?raw=true" channel="BabyTV.it" group-title="Other",BABY TV
 https://vavoo.to/vavoo-iptv/play/226572794257a18add58e4
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="BELLA RADIO TV" tvg-name="BELLA RADIO TV" tvg-logo="" channel="BELLA RADIO TV" group-title="Other",BELLA RADIO TV
@@ -560,6 +563,9 @@ https://vavoo.to/vavoo-iptv/play/2826111812745ee617058d
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="CACCIA" tvg-name="CACCIA" tvg-logo="" channel="CACCIA" group-title="Other",CACCIA
 https://vavoo.to/vavoo-iptv/play/1692155417ce364b21d0ca
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="CacciaPesca.it" tvg-name="CACCIA E PESCA" tvg-logo="" channel="CacciaPesca.it" group-title="Other",CACCIA E PESCA
+https://vavoo.to/vavoo-iptv/play/3639213638a7c6a2cc326e
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="CAFE 24" tvg-name="CAFE 24" tvg-logo="" channel="CAFE 24" group-title="Other",CAFE 24
 https://vavoo.to/vavoo-iptv/play/1625923783d5a6dda233b3
