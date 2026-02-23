@@ -65,8 +65,8 @@ EPG_MAP = {
     "LA7": "La7.it",
     "LA7D": "La7d.it",
     "TV8": "TV8.it",
-    "NOVE": "NOVE.it",
-    "DISCOVERY NOVE": "NOVE.it",
+    "NOVE": "Nove.it",
+    "DISCOVERY NOVE": "Nove.it",
     "20 MEDIASET": "Mediaset20.it",
     "CIELO": "cielo.it",
     "DMAX": "DMAX.it",
@@ -499,6 +499,7 @@ class PlaylistGenerator:
             n = re.sub(r'\s+\.[A-Z0-9]{1,3}$', '', n) # Remove " .c", " .s" (Upper because n is upper)
         n = re.sub(r'\s+\+$', '', n)
         n = re.sub(r'[^A-Z0-9 ]', '', n)
+        n = re.sub(r'\s+', ' ', n)
         return n.strip()
 
     def _get_category(self, norm_name):
@@ -597,6 +598,11 @@ class PlaylistGenerator:
                 norm_name = "SKY SPORT MOTO GP"
             elif norm_name == "RAI SPORT":
                 ch['final_logo_override'] = "logos/rai-sport-hd-it.svg"
+            elif norm_name.startswith("HISTORY") and "CHANNEL" not in norm_name and norm_name != "HISTORY":
+                # Matches HISTORY C, HISTORY  C, HISTORY S, HISTORYHD etc
+                norm_name = "HISTORY"
+            elif norm_name == "HISTORY CHANNEL S" or norm_name == "HISTORY  CHANNEL S":
+                norm_name = "HISTORY"
             
             category = self._get_category(norm_name)
             priority = self._get_priority(norm_name)
@@ -609,20 +615,22 @@ class PlaylistGenerator:
             # Resolve EPG ID and Logo
             epg_id = "" if ch.get('no_epg') else EPG_MAP.get(norm_name, "")
             
-            tvg_id = epg_id if epg_id else norm_name
-            if ch.get('no_epg'): tvg_id = ""
-            
-            tvg_name = tvg_id if tvg_id else ch['name']
-            if ch.get('no_epg'):
-                tvg_name = ch['name']
-                tvg_id = ""
-            
             # Resolve Clean Name from EPG
             clean_display_name = norm_name
-            if epg_id:
+            if norm_name == "HISTORY":
+                clean_display_name = "HISTORY"
+            elif epg_id:
                 epg_name = self.dm.get_clean_epg_name(epg_id)
                 if epg_name:
                     clean_display_name = epg_name
+
+            tvg_id = epg_id if epg_id else norm_name
+            if ch.get('no_epg'): tvg_id = ""
+            
+            tvg_name = tvg_id if tvg_id else clean_display_name
+            if ch.get('no_epg'):
+                tvg_name = clean_display_name
+                tvg_id = ""
             
             # Check local logo
             logo_path = ch['logo'] # Default to remote
