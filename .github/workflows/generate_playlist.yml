@@ -29,9 +29,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Generate Playlist
+      - name: Generate Playlist and EPG
         run: |
-          python python_iptv/generate_playlist_cli.py --output playlist.m3u8
+          python python_iptv/generate_playlist_cli.py --output playlist.m3u8 --epg-output epg.xml
 
       - name: Commit and Push changes
         run: |
@@ -39,11 +39,11 @@ jobs:
           git config user.name "github-actions[bot]"
           
           # Check if there are changes
-          if git diff --quiet playlist.m3u8; then
+          if git diff --quiet playlist.m3u8 epg.xml 2>/dev/null; then
             echo "No changes to commit"
             exit 0
           fi
           
-          git add playlist.m3u8
-          git commit -m "Auto-update playlists [skip ci]"
+          git add playlist.m3u8 epg.xml
+          git commit -m "Auto-update playlist and EPG [skip ci]"
           git push

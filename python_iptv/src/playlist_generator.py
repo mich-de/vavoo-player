@@ -673,21 +673,14 @@ class PlaylistGenerator:
             return False
 
         try:
-            logging.info(f"Writing {len(processed_channels)} channels to {output_path} (Format: {'XCIPTV' if is_xc else 'Standard'})...")
+            logging.info(f"Writing {len(processed_channels)} channels to {output_path}...")
             with open(output_path, "w", encoding="utf-8") as f:
-                # Include both Primary and Backup EPGs for Italy and Switzerland
-                epg_urls = "https://iptv-epg.org/files/epg-it.xml.gz,https://iptv-epg.org/files/epg-ch.xml.gz,https://epgshare01.online/epgshare01/epg_ripper_IT1.xml.gz,https://epgshare01.online/epgshare01/epg_ripper_CH1.xml.gz"
-                f.write(f'#EXTM3U x-tvg-url="{epg_urls}"\n')
+                epg_url = "https://raw.githubusercontent.com/mich-de/vavoo-player/master/epg.xml"
+                f.write(f'#EXTM3U x-tvg-url="{epg_url}"\n')
                 
-                for idx, ch in enumerate(processed_channels, 1):
-                    if not is_xc:
-                        # Standard Format: include EXTVLCOPT
-                        f.write(f'#EXTVLCOPT:http-user-agent={USER_AGENT}\n')
-                        header = f'#EXTINF:-1 tvg-id="{ch["tvg_id"]}" tvg-name="{ch["clean_name"]}" tvg-logo="{ch["final_logo"]}" channel="{ch["tvg_id"]}" group-title="{ch["group"]}",{ch["clean_name"]}'
-                    else:
-                        # XCIPTV Format: UA in header, no EXTVLCOPT, add tvg-chno
-                        header = f'#EXTINF:-1 tvg-id="{ch["tvg_id"]}" tvg-name="{ch["clean_name"]}" tvg-logo="{ch["final_logo"]}" tvg-chno="{idx}" channel="{ch["tvg_id"]}" group-title="{ch["group"]}" http-user-agent="{USER_AGENT}",{ch["clean_name"]}'
-                    
+                for ch in processed_channels:
+                    f.write(f'#EXTVLCOPT:http-user-agent={USER_AGENT}\n')
+                    header = f'#EXTINF:-1 tvg-id="{ch["tvg_id"]}" tvg-name="{ch["clean_name"]}" tvg-logo="{ch["final_logo"]}" channel="{ch["tvg_id"]}" group-title="{ch["group"]}",{ch["clean_name"]}'
                     f.write(f"{header}\n")
                     f.write(f"{ch['url']}\n")
                     
