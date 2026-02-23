@@ -1,19 +1,21 @@
 @echo off
-title Python Vavoo Player Launcher
-echo Starting up...
+echo ====================================
+echo   Vavoo Playlist Generator
+echo ====================================
 echo.
-REM Check if venv exists
-if not exist ".venv\Scripts\python.exe" (
-    echo [INFO] Virtual environment not found. Creating...
-    python -m venv .venv
-    echo [INFO] Installing dependencies...
-    .\.venv\Scripts\python.exe -m pip install -r python_iptv\requirements.txt
-    echo [INFO] Setup complete.
+
+cd /d "%~dp0"
+
+if not exist "python_iptv\.venv" (
+    echo Creating virtual environment...
+    python -m venv python_iptv\.venv
+    echo Installing dependencies...
+    python_iptv\.venv\Scripts\pip.exe install -r python_iptv\requirements.txt
 )
 
-REM Start the application using venv interpreter
-start "" ".venv\Scripts\python.exe" "python_iptv\main.py"
-
-echo Application started.
-timeout /t 3 >nul
-exit
+echo.
+echo Generating playlist...
+python_iptv\.venv\Scripts\python.exe python_iptv\generate_playlist_cli.py --output playlist.m3u8
+echo.
+echo Done! Playlist saved to playlist.m3u8
+pause
