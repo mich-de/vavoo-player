@@ -22,23 +22,30 @@ GROUPS = [
     "Italy"
 ]
 
+
 TIVUSAT_ORDER = {
     "RAI 1": 1, "RAI 2": 2, "RAI 3": 3, "RETE 4": 4, "CANALE 5": 5, "ITALIA 1": 6, "LA7": 7, "TV8": 8, "NOVE": 9,
-    "RAI 4": 10, "IRIS": 11, "LA5": 12, "RAI 5": 13, "RAI MOVIE": 14, "RAI PREMIUM": 15, 
+    "RAI 4": 10, "IRIS": 11, "LA5": 12, "RAI 5": 13, "RAI MOVIE": 14, "RAI PREMIUM": 15,
     "MEDIASET EXTRA": 17, "TV2000": 18, "CIELO": 19, "20 MEDIASET": 20, "RAI SPORT": 21,
-    "IRIS": 22, "RAI STORIA": 23, "RAI NEWS 24": 24, "TGCOM24": 25, "DMAX": 26, "REAL TIME": 31,
+    "RAI STORIA": 23, "RAI NEWS 24": 24, "TGCOM24": 25, "DMAX": 26, "REAL TIME": 31,
     "CINE34": 34, "FOCUS": 35, "RTL 102.5": 36, "WARNER TV": 37, "GIALLO": 38, "TOP CRIME": 39,
     "BOING": 40, "K2": 41, "RAI GULP": 42, "RAI YOYO": 43, "FRISBEE": 44, "CARTOONITO": 46, "SUPER!": 47,
-    "SPIKE": 49, "SKY TG24": 50, "TGCOM24": 51, "DMAX": 52, "ITALIA 2": 66, "RADIO ITALIA TV": 70,
+    "SPIKE": 49, "SKY TG24": 50, "ITALIA 2": 66, "RADIO ITALIA TV": 70,
     "RSI LA 1": 71, "RSI LA 2": 72
 }
 
 BOUQUETS = {
-    "TV Sat": ["RAI 1", "RAI 2", "RAI 3", "RETE 4", "CANALE 5", "ITALIA 1", "LA7", "TV8", "NOVE", "20 MEDIASET", "RAI 4", "IRIS", "LA5", "RAI 5", "RAI MOVIE", "RAI PREMIUM", "RAI GULP", "RAI YOYO", "RAI STORIA", "RAI SCUOLA", "RAI NEWS 24", "RAI SPORT", "SPORTITALIA", "TV2000", "CIELO", "DMAX", "REAL TIME", "QVC", "RTL 102.5", "RADIO ITALIA TV", "BOING", "K2", "FRISBEE", "CARTOONITO", "SUPER!", "SPIKE", "PARAMOUNT", "CINE34", "FOCUS", "TOP CRIME", "GIALLO", "TGCOM24", "VH1", "ITALIA 2", "SUPERTENNIS", "MOTOR TREND", "RAI 4K", "RSI LA 1", "RSI LA 2"],
+    "TV Sat": ["RAI 1", "RAI 2", "RAI 3", "RETE 4", "CANALE 5", "ITALIA 1", "LA7", "TV8", "NOVE", "20 MEDIASET",
+               "RAI 4", "IRIS", "LA5", "RAI 5", "RAI MOVIE", "RAI PREMIUM", "MEDIASET EXTRA",
+               "RAI GULP", "RAI YOYO", "RAI STORIA", "RAI SCUOLA", "RAI NEWS 24", "RAI SPORT",
+               "SPORTITALIA", "TV2000", "CIELO", "DMAX", "REAL TIME", "QVC", "RTL 102.5", "RADIO ITALIA TV",
+               "BOING", "K2", "FRISBEE", "CARTOONITO", "SUPER!", "SPIKE", "PARAMOUNT",
+               "CINE34", "FOCUS", "TOP CRIME", "GIALLO", "WARNER TV", "TGCOM24", "SKY TG24",
+               "VH1", "ITALIA 2", "SUPERTENNIS", "MOTOR TREND", "RAI 4K", "RSI LA 1", "RSI LA 2"],
     "Cinema": ["SKY CINEMA", "PREMIUM CINEMA"],
     "Sport": ["SKY SPORT", "DAZN", "EUROSPORT", "TENNIS", "MOTOGP", "F1", "CALCIO", "INTER", "MILAN", "JUVE"],
     "Documentary": ["SKY DOCUMENTARIES", "SKY NATURE", "GEO", "DISCOVERY", "HISTORY"],
-    "News": ["SKY TG24", "EURONEWS", "BBC", "CNN", "CNBC"]
+    "News": ["EURONEWS", "BBC", "CNN", "CNBC"]
 }
 
 # Mapping from Normalized Vavoo Name to EPG ID
@@ -63,8 +70,11 @@ EPG_MAP = {
     "ITALIA 2": "Italia2.it",
     "RETE 4": "Rete4.it",
     "LA7": "La7.it",
+    "LA 7": "La7.it",
     "LA7D": "La7d.it",
     "TV8": "TV8.it",
+    "TV 8": "TV8.it",
+    "8": "TV8.it",
     "NOVE": "Nove.it",
     "DISCOVERY NOVE": "Nove.it",
     "20 MEDIASET": "Mediaset20.it",
@@ -635,7 +645,7 @@ class PlaylistGenerator:
             # Check local logo
             logo_path = ch['logo'] # Default to remote
             if ch.get('final_logo_override'):
-                logo_path = ch['final_logo_override'].replace("logos/", "https://github.com/mich-de/vavoo-player/blob/master/logos/") + "?raw=true"
+                logo_path = ch['final_logo_override'].replace("logos/", "https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/")
             elif epg_id:
                 # Case-insensitive match for local logos (crucial for Linux/GitHub Actions)
                 target_fname = f"{epg_id}.png".lower()
@@ -651,7 +661,7 @@ class PlaylistGenerator:
                     logging.error(f"Error scanning logos directory: {e}")
 
                 if matched_file:
-                    logo_path = f"https://github.com/mich-de/vavoo-player/blob/master/logos/{matched_file}?raw=true"
+                    logo_path = f"https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/{matched_file}"
             
             
             
