@@ -19,9 +19,7 @@ API_BASE = "https://www.vavoo.tv/api"
 VAOO_URL = "https://vavoo.to/mediahubmx-catalog.json"
 
 GROUPS = [
-    "Germany", "Italy", "France", "Spain", "Portugal", 
-    "Turkey", "Balkan", "Albania", "Arabia", "Russia", 
-    "Poland", "Greece", "USA", "Latino", "Vavoo", "Switzerland"
+    "Italy"
 ]
 
 TIVUSAT_ORDER = {
@@ -141,9 +139,9 @@ EPG_MAP = {
     "HISTORY": "History.it",
     "HISTORY 1": "History.it",
     "HISTORY HD": "History.it",
-    "HISTORY .C": "History.it",
-    "HISTORY .S": "History.it",
-    "HISTORY CHANNEL .S": "History.it",
+    "HISTORY C": "History.it",
+    "HISTORY S": "History.it",
+    "HISTORY CHANNEL S": "History.it",
     "HORSE TV HD": "HorseTV.it",
     "I24NEWS": "i24news.it",
     "IL61": "IL61.it",
