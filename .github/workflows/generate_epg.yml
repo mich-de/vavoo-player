@@ -43,11 +43,12 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           
-          if git diff --quiet epg.xml 2>/dev/null; then
+          git add epg.xml
+          
+          if git diff --cached --quiet; then
             echo "No EPG changes to commit"
             exit 0
           fi
           
-          git add epg.xml
           git commit -m "Auto-update EPG [skip ci]"
           git push
