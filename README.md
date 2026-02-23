@@ -8,7 +8,7 @@ Automated M3U8 playlist generator for Italian IPTV channels from Vavoo sources, 
 - **Full EPG mapping** from `iptv-epg.org` and `epgshare01.online`
 - **Channel logos** for all major networks (RAI, Mediaset, Sky, DAZN, etc.)
 - **Smart categorization**: TV Sat, Cinema, Sport, Kids, News, Documentary
-- **GitHub Actions** — the playlist is auto-updated daily
+- **GitHub Actions** — playlist auto-updates daily, old runs auto-cleanup weekly
 - **Tivùsat ordering** — channels follow the official numbering
 
 ## 🚀 Quick Start
@@ -41,8 +41,10 @@ python -m venv .venv
 
 ```
 vavoo-player/
-├── .github/workflows/     GitHub Actions (auto-generation)
-├── logos/                  Channel logos (PNG/SVG)
+├── .github/workflows/
+│   ├── generate_playlist.yml   Daily playlist generation
+│   └── cleanup_runs.yml        Weekly workflow runs cleanup
+├── logos/                      Channel logos (PNG/SVG)
 ├── python_iptv/
 │   ├── generate_playlist_cli.py   CLI entry point
 │   ├── requirements.txt
@@ -50,8 +52,8 @@ vavoo-player/
 │       ├── playlist_generator.py  Core generator
 │       ├── epg_manager.py         EPG data management
 │       └── data_manager.py        Channel & logo management
-├── playlist.m3u8           Generated playlist
-└── start.bat               Windows launcher
+├── playlist.m3u8               Generated playlist
+└── start.bat                   Windows launcher
 ```
 
 ## 📡 EPG Sources
@@ -62,6 +64,15 @@ vavoo-player/
 | Primary CH | `iptv-epg.org/files/epg-ch.xml.gz` |
 | Backup IT | `epgshare01.online/epgshare01/epg_ripper_IT1.xml.gz` |
 | Backup CH | `epgshare01.online/epgshare01/epg_ripper_CH1.xml.gz` |
+
+## ⚙️ GitHub Actions
+
+| Workflow | Schedule | Description |
+|----------|----------|-------------|
+| `generate_playlist.yml` | Daily at midnight | Generates and commits the playlist |
+| `cleanup_runs.yml` | Sundays at 3 AM | Deletes workflow runs older than 7 days |
+
+Both workflows can also be triggered manually via `workflow_dispatch`.
 
 ## 📜 License
 
