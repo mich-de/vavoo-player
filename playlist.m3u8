@@ -33,7 +33,7 @@ https://vavoo.to/vavoo-iptv/play/110155966670807e698f7d
 #EXTINF:-1 tvg-id="Italia1.it" tvg-name="ITALIA 1" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/Italia1.it.png" channel="Italia1.it" group-title="TV Sat",ITALIA 1
 https://vavoo.to/vavoo-iptv/play/663536394520458805ef6
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="La7d.it" tvg-name="LA7D" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7D.it.png" channel="La7d.it" group-title="Serie TV",LA7D
+#EXTINF:-1 tvg-id="La7D.it" tvg-name="LA7D" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7D.it.png" channel="La7D.it" group-title="Serie TV",LA7D
 https://vavoo.to/vavoo-iptv/play/881846038948178d71a68
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="La7.it" tvg-name="LA7" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7.it.png" channel="La7.it" group-title="TV Sat",LA7
@@ -42,7 +42,7 @@ https://vavoo.to/vavoo-iptv/play/2143522071cfa887e2feb3
 #EXTINF:-1 tvg-id="La7.it" tvg-name="LA7" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7.it.png" channel="La7.it" group-title="TV Sat",LA7
 https://vavoo.to/vavoo-iptv/play/7755300630832713e7adb
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="La7d.it" tvg-name="LA7D" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7D.it.png" channel="La7d.it" group-title="TV Sat",LA7D
+#EXTINF:-1 tvg-id="La7D.it" tvg-name="LA7D" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7D.it.png" channel="La7D.it" group-title="TV Sat",LA7D
 https://vavoo.to/vavoo-iptv/play/881846038948178d71a68
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="TV8.it" tvg-name="TV8" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/TV8.it.png" channel="TV8.it" group-title="TV Sat",TV8
@@ -609,9 +609,6 @@ https://vavoo.to/vavoo-iptv/play/1955739367e1de6e90adc1
 #EXTINF:-1 tvg-id="DiscoveryChannel.it" tvg-name="DISCOVERY CHANNEL" tvg-logo="" channel="DiscoveryChannel.it" group-title="Documentary",DISCOVERY CHANNEL
 https://vavoo.to/vavoo-iptv/play/355484191439d5194fc358
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="DiscoveryScience.it" tvg-name="DISCOVERY SCIENCE" tvg-logo="" channel="DiscoveryScience.it" group-title="Documentary",DISCOVERY SCIENCE
-https://vavoo.to/vavoo-iptv/play/5284308415938593b2e15
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="History.it" tvg-name="HISTORY" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/History.it.png" channel="History.it" group-title="Documentary",HISTORY
 https://vavoo.to/vavoo-iptv/play/3178376547e2dcc234152
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -659,6 +656,9 @@ https://vavoo.to/vavoo-iptv/play/803540254d5a6317673b3
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="NICK JR" tvg-name="NICK JR" tvg-logo="" channel="NICK JR" group-title="Kids",NICK JR
 https://vavoo.to/vavoo-iptv/play/38095847274e645e8a065
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="Nickelodeon.it" tvg-name="NICKELODEON" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/Nickelodeon.it.png" channel="Nickelodeon.it" group-title="Kids",NICKELODEON
+https://vavoo.to/vavoo-iptv/play/30393892159798f5cebb7c
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="CLASSICA" tvg-name="CLASSICA" tvg-logo="" channel="CLASSICA" group-title="Music",CLASSICA
 https://vavoo.to/vavoo-iptv/play/640609226bada55274ff
@@ -1221,16 +1221,16 @@ https://vavoo.to/vavoo-iptv/play/365827745096a993ffc066
 #EXTINF:-1 tvg-id="ComedyCentral.it" tvg-name="COMEDY CENTRAL" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/ComedyCentral.it.png" channel="ComedyCentral.it" group-title="Serie TV",COMEDY CENTRAL
 https://vavoo.to/vavoo-iptv/play/433893159bf516cde9a97
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="FOOD NETWORK" tvg-name="FOOD NETWORK" tvg-logo="" channel="FOOD NETWORK" group-title="Serie TV",FOOD NETWORK
+#EXTINF:-1 tvg-id="FoodNetwork.it" tvg-name="FOOD NETWORK" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/FoodNetwork.it.png" channel="FoodNetwork.it" group-title="Serie TV",FOOD NETWORK
 https://vavoo.to/vavoo-iptv/play/2820683351b557bc63df61
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="FOOD NETWORK" tvg-name="FOOD NETWORK" tvg-logo="" channel="FOOD NETWORK" group-title="Serie TV",FOOD NETWORK
+#EXTINF:-1 tvg-id="FoodNetwork.it" tvg-name="FOOD NETWORK" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/FoodNetwork.it.png" channel="FoodNetwork.it" group-title="Serie TV",FOOD NETWORK
 https://vavoo.to/vavoo-iptv/play/276786104991c55564696b
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="HGTV" tvg-name="HGTV" tvg-logo="" channel="HGTV" group-title="Serie TV",HGTV
+#EXTINF:-1 tvg-id="HGTV.it" tvg-name="HGTV" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/HGTV.it.png" channel="HGTV.it" group-title="Serie TV",HGTV
 https://vavoo.to/vavoo-iptv/play/28977827817ceeecfaf662
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="HGTV" tvg-name="HGTV" tvg-logo="" channel="HGTV" group-title="Serie TV",HGTV
+#EXTINF:-1 tvg-id="HGTV.it" tvg-name="HGTV" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/HGTV.it.png" channel="HGTV.it" group-title="Serie TV",HGTV
 https://vavoo.to/vavoo-iptv/play/42489970292d2930202d0e
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="STAR CHANNEL" tvg-name="STAR CHANNEL" tvg-logo="" channel="STAR CHANNEL" group-title="Serie TV",STAR CHANNEL
@@ -1302,16 +1302,16 @@ https://vavoo.to/vavoo-iptv/play/80896559d4a6e09d36f1
 #EXTINF:-1 tvg-id="CAMERA DEI DEPUTATI" tvg-name="CAMERA DEI DEPUTATI" tvg-logo="" channel="CAMERA DEI DEPUTATI" group-title="TV Sat",CAMERA DEI DEPUTATI
 https://vavoo.to/vavoo-iptv/play/4253692893cca91a1bbfde
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="FOOD NETWORK" tvg-name="FOOD NETWORK" tvg-logo="" channel="FOOD NETWORK" group-title="TV Sat",FOOD NETWORK
+#EXTINF:-1 tvg-id="FoodNetwork.it" tvg-name="FOOD NETWORK" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/FoodNetwork.it.png" channel="FoodNetwork.it" group-title="TV Sat",FOOD NETWORK
 https://vavoo.to/vavoo-iptv/play/2820683351b557bc63df61
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="FOOD NETWORK" tvg-name="FOOD NETWORK" tvg-logo="" channel="FOOD NETWORK" group-title="TV Sat",FOOD NETWORK
+#EXTINF:-1 tvg-id="FoodNetwork.it" tvg-name="FOOD NETWORK" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/FoodNetwork.it.png" channel="FoodNetwork.it" group-title="TV Sat",FOOD NETWORK
 https://vavoo.to/vavoo-iptv/play/276786104991c55564696b
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="HGTV" tvg-name="HGTV" tvg-logo="" channel="HGTV" group-title="TV Sat",HGTV
+#EXTINF:-1 tvg-id="HGTV.it" tvg-name="HGTV" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/HGTV.it.png" channel="HGTV.it" group-title="TV Sat",HGTV
 https://vavoo.to/vavoo-iptv/play/28977827817ceeecfaf662
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="HGTV" tvg-name="HGTV" tvg-logo="" channel="HGTV" group-title="TV Sat",HGTV
+#EXTINF:-1 tvg-id="HGTV.it" tvg-name="HGTV" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/HGTV.it.png" channel="HGTV.it" group-title="TV Sat",HGTV
 https://vavoo.to/vavoo-iptv/play/42489970292d2930202d0e
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="MotorTrend.it" tvg-name="MOTOR TREND" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/MotorTrend.it.png" channel="MotorTrend.it" group-title="TV Sat",MOTOR TREND
