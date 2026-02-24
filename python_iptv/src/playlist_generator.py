@@ -152,6 +152,8 @@ EPG_MAP = {
     "EQUTV": "Equtv.it",
     "ER24 - EMILIA ROMAGNA 24": "EmiliaRomagna24.it",
     "EURONEWS": "Euronews.it",
+    "INTER TV": "InterTV.it",
+    "MILAN TV": "MilanTV.it",
     "EUROSPORT 2HD": "Eurosport2.it",
     "EUROSPORT HD": "Eurosport.it",
     "EXPLORER HD CHANNEL": "ExplorerChannel.it",
