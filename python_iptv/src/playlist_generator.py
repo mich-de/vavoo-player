@@ -41,18 +41,27 @@ BOUQUETS = {
                "TV2000", "CIELO", "DMAX", "REAL TIME", "QVC",
                "BOING", "K2", "FRISBEE", "CARTOONITO", "SUPER!", "SPIKE", "PARAMOUNT",
                "CINE34", "FOCUS", "TOP CRIME", "GIALLO", "WARNER TV", "TGCOM24", "SKY TG24",
-               "ITALIA 2", "MOTOR TREND", "RAI 4K", "RSI LA 1", "RSI LA 2"],
+               "ITALIA 2", "MOTOR TREND", "RAI 4K", "RSI LA 1", "RSI LA 2", "TWENTYSEVEN",
+               "RAI ITALIA", "FOOD NETWORK", "HGTV", "SENATO TV", "CAMERA DEI DEPUTATI"],
     "Cinema": ["SKY CINEMA", "PREMIUM CINEMA", "CINE34", "RAI MOVIE", "PARAMOUNT", "IRIS", "LA5",
-                "RAI PREMIUM"],
+               "RAI PREMIUM", "SKY PRIMAFILA", "SKYSHOWTIME", "DISNEY FILM"],
     "Serie TV": ["SKY ATLANTIC", "SKY SERIE", "SKY INVESTIGATION", "SKY UNO", "SKY ARTE",
-                 "WARNER TV", "SKY CRIME"],
+                 "WARNER TV", "SKY CRIME", "STAR CRIME", "STAR CHANNEL", "COMEDY CENTRAL",
+                 "LA 7 D", "LA7D", "FOOD NETWORK", "HGTV"],
     "Sport": ["SKY SPORT", "DAZN", "EUROSPORT", "TENNIS", "MOTOGP", "F1", "CALCIO",
-              "INTER", "MILAN", "JUVE", "SPORTITALIA", "SUPER TENNIS", "SPORT ITALIA"],
+              "INTER TV", "MILAN TV", "JUVE", "SPORTITALIA", "SUPER TENNIS", "SPORT ITALIA",
+              "ACI SPORT", "BIKE", "MOTOR TREND"],
+    "Kids": ["BOING", "K2", "FRISBEE", "CARTOONITO", "SUPER!", "RAI GULP", "RAI YOYO",
+             "BOOMERANG", "CARTOON NETWORK", "NICK JR", "NICKELODEON", "BABY TV",
+             "IUNIOR TV", "DISNEY"],
     "Documentary": ["SKY DOCUMENTARIES", "SKY NATURE", "GEO", "DISCOVERY", "HISTORY",
-                     "NATIONAL GEOGRAPHIC", "NAT GEO", "BLAZE", "CRIME INVESTIGATION", "LAEFFE"],
+                     "NATIONAL GEOGRAPHIC", "NAT GEO", "BLAZE", "CRIME INVESTIGATION", "LAEFFE",
+                     "ANIMAL PLANET", "PESCA", "CACCIA"],
     "Music": ["VH1", "MTV", "RADIO ITALIA", "RTL 102.5", "RADIO CAPITAL", "RADIO FRECCIA", "RDS SOCIAL",
-              "RADIONORBA", "DEEJAY"],
-    "News": ["EURONEWS", "BBC", "CNN", "CNBC"]
+              "RADIONORBA", "DEEJAY", "RADIO 105", "RADIO MONTE CARLO", "R101",
+              "KISS KISS", "M2O", "CLASSICA", "RMC"],
+    "News": ["EURONEWS", "BBC", "CNN", "CNBC", "BLOOMBERG", "FRANCE 24",
+             "TG NORBA", "SKY TG24", "TGCOM24", "RAI NEWS"]
 }
 
 # Mapping from Normalized Vavoo Name to EPG ID
@@ -260,8 +269,17 @@ EPG_MAP = {
     "SKY UNO": "SkyUno.it",
     "SMTV SAN MARINO": "SanMarinoRTV.it",
     "SPORTITALIA": "Sportitalia.it",
+    "SUPER TENNIS": "SuperTennis.it",
     "SUPERTENNIS HD": "SuperTennisHD.it",
     "SUPERTENNIS": "SuperTennis.it",
+    "TWENTYSEVEN": "TWENTYSEVEN.it",
+    "DISCOVERY CHANNEL": "DiscoveryChannel.it",
+    "DISCOVERY SCIENCE": "DiscoveryScience.it",
+    "NAT GEO WILD": "NatGeoWild.it",
+    "NATIONAL GEOGRAPHIC": "NationalGeographic.it",
+    "MTV HITS": "MTVHits.it",
+    "MTV MUSIC": "MTVMusic.it",
+    "SKY SPORT MAX": "SkySportMax.it",
     "TELECAMPIONE": "Telecampione.it",
     "TG NORBA24": "TGNORBA24.it",
     "TOP CALCIO 24": "TopCalcio24.it",
@@ -638,6 +656,20 @@ class PlaylistGenerator:
                 norm_name = "TOP CRIME"
             elif norm_name == "SKY SPORT MOTOGP":
                 norm_name = "SKY SPORT MOTO GP"
+            elif norm_name == "SKY SPORTS F1":
+                norm_name = "SKY SPORT F1"
+            elif norm_name == "SKY SUPER TENNIS":
+                norm_name = "SUPER TENNIS"
+            elif norm_name in ("CANALE 27", "27", "TWENTYSEVEN"):
+                norm_name = "TWENTYSEVEN"
+            elif norm_name in ("CINE 34 MEDIASET",):
+                norm_name = "CINE34"
+            elif norm_name in ("MEDIASET 20", "MEDIASET 1"):
+                norm_name = "20 MEDIASET"
+            elif norm_name == "MOTORTREND":
+                norm_name = "MOTOR TREND"
+            elif norm_name == "LA 7 D":
+                norm_name = "LA7D"
             elif norm_name == "RAI SPORT":
                 ch['final_logo_override'] = "logos/rai-sport-hd-it.svg"
             elif norm_name.startswith("HISTORY") and "CHANNEL" not in norm_name and norm_name != "HISTORY":
