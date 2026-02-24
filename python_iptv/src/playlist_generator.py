@@ -519,12 +519,15 @@ class PlaylistGenerator:
         n = re.sub(r'\s+', ' ', n)
         return n.strip()
 
-    def _get_category(self, norm_name):
+    def _get_categories(self, norm_name):
+        """Returns ALL matching categories for a channel (supports multi-group)."""
+        categories = []
         for category, keywords in BOUQUETS.items():
             for k in keywords:
                 if k in norm_name:
-                    return category
-        return "Other"
+                    categories.append(category)
+                    break  # Don't match same category twice
+        return categories if categories else ["Other"]
 
     def _get_priority(self, norm_name):
         # Exact match logic for short names to avoid partial overlap issues
@@ -640,7 +643,7 @@ class PlaylistGenerator:
             elif norm_name == "HISTORY CHANNEL S" or norm_name == "HISTORY  CHANNEL S":
                 norm_name = "HISTORY"
             
-            category = self._get_category(norm_name)
+            categories = self._get_categories(norm_name)
             priority = self._get_priority(norm_name)
             
             if priority == 9999:
@@ -673,7 +676,6 @@ class PlaylistGenerator:
             if ch.get('final_logo_override'):
                 logo_path = ch['final_logo_override'].replace("logos/", "https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/")
             elif epg_id:
-                # Case-insensitive match for local logos (crucial for Linux/GitHub Actions)
                 target_fname = f"{epg_id}.png".lower()
                 matched_file = None
                 
@@ -689,17 +691,17 @@ class PlaylistGenerator:
                 if matched_file:
                     logo_path = f"https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/{matched_file}"
             
-            
-            
-            ch['norm_name'] = norm_name
-            ch['group'] = category
-            ch['priority'] = priority
-            ch['tvg_id'] = tvg_id
-            ch['tvg_name'] = tvg_name
-            ch['final_logo'] = logo_path
-            ch['clean_name'] = clean_display_name
-            
-            processed_channels.append(ch)
+            # Duplicate channel into each matching group
+            for category in categories:
+                ch_copy = ch.copy()
+                ch_copy['norm_name'] = norm_name
+                ch_copy['group'] = category
+                ch_copy['priority'] = priority
+                ch_copy['tvg_id'] = tvg_id
+                ch_copy['tvg_name'] = tvg_name
+                ch_copy['final_logo'] = logo_path
+                ch_copy['clean_name'] = clean_display_name
+                processed_channels.append(ch_copy)
 
         # Sort
         processed_channels.sort(key=lambda x: (x['priority'], x['group'], x['norm_name']))
