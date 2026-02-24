@@ -588,6 +588,10 @@ class PlaylistGenerator:
             elif norm_name == "RAI 4K":
                 ch['final_logo_override'] = "logos/Rai4k.it.png"
                 ch['no_epg'] = True
+            elif norm_name == "LA 7":
+                norm_name = "LA7"
+            elif norm_name == "8 TV" or norm_name == "8":
+                norm_name = "TV8"
             elif norm_name == "DISCOVERY NOVE":
                 norm_name = "NOVE"
             elif norm_name == "DISCOVERY K2":
