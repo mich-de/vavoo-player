@@ -33,6 +33,12 @@ https://vavoo.to/vavoo-iptv/play/110155966670807e698f7d
 #EXTINF:-1 tvg-id="Italia1.it" tvg-name="ITALIA 1" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/Italia1.it.png" channel="Italia1.it" group-title="TV Sat",ITALIA 1
 https://vavoo.to/vavoo-iptv/play/663536394520458805ef6
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="La7.it" tvg-name="LA7" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7.it.png" channel="La7.it" group-title="TV Sat",LA7
+https://vavoo.to/vavoo-iptv/play/2143522071cfa887e2feb3
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="La7.it" tvg-name="LA7" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7.it.png" channel="La7.it" group-title="TV Sat",LA7
+https://vavoo.to/vavoo-iptv/play/7755300630832713e7adb
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="Nove.it" tvg-name="NOVE" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/NOVE.it.png" channel="Nove.it" group-title="TV Sat",NOVE
 https://vavoo.to/vavoo-iptv/play/1574591400f5a3b24c62fc
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -114,10 +120,10 @@ https://vavoo.to/vavoo-iptv/play/3008151733b9915486ff45
 #EXTINF:-1 tvg-id="DMAX.it" tvg-name="DMAX" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/DMAX.it.png" channel="DMAX.it" group-title="TV Sat",DMAX
 https://vavoo.to/vavoo-iptv/play/3803638765756268d23edc
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="RealTime.it" tvg-name="REAL TIME" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/RealTime.it.png" channel="RealTime.it" group-title="TV Sat",REAL TIME
+#EXTINF:-1 tvg-id="Real.Time.it" tvg-name="REAL TIME" tvg-logo="" channel="Real.Time.it" group-title="TV Sat",REAL TIME
 https://vavoo.to/vavoo-iptv/play/157497519660249c278f94
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="RealTime.it" tvg-name="REAL TIME" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/RealTime.it.png" channel="RealTime.it" group-title="TV Sat",REAL TIME
+#EXTINF:-1 tvg-id="Real.Time.it" tvg-name="REAL TIME" tvg-logo="" channel="Real.Time.it" group-title="TV Sat",REAL TIME
 https://vavoo.to/vavoo-iptv/play/2251241999722578d55332
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="Focus.it" tvg-name="FOCUS" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/Focus.it.png" channel="Focus.it" group-title="TV Sat",FOCUS
@@ -346,6 +352,9 @@ https://vavoo.to/vavoo-iptv/play/325121729090a7b71fb865
 https://vavoo.to/vavoo-iptv/play/39395136840a7593b75855
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SKY PRIMAFILA 7" tvg-name="SKY PRIMAFILA 7" tvg-logo="" channel="SKY PRIMAFILA 7" group-title="Other",SKY PRIMAFILA 7
+https://vavoo.to/vavoo-iptv/play/4238969402e69feff53112
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="SKY PRIMAFILA 7" tvg-name="SKY PRIMAFILA 7" tvg-logo="" channel="SKY PRIMAFILA 7" group-title="Other",SKY PRIMAFILA 7
 https://vavoo.to/vavoo-iptv/play/3618643172a26b31eba4b4
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="SKY PRIMAFILA 8" tvg-name="SKY PRIMAFILA 8" tvg-logo="" channel="SKY PRIMAFILA 8" group-title="Other",SKY PRIMAFILA 8
@@ -432,11 +441,11 @@ https://vavoo.to/vavoo-iptv/play/22890389722acc4573933d
 #EXTINF:-1 tvg-id="SKY SUPER TENNIS" tvg-name="SKY SUPER TENNIS" tvg-logo="" channel="SKY SUPER TENNIS" group-title="Sport",SKY SUPER TENNIS
 https://vavoo.to/vavoo-iptv/play/55828211836e421b20575
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="DAZN.it" tvg-name="DAZN" tvg-logo="" channel="DAZN.it" group-title="Sport",DAZN
-https://vavoo.to/vavoo-iptv/play/2303792166c73d1b7a1439
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="DAZN1.it" tvg-name="DAZN 1" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/DAZN1.it.png" channel="DAZN1.it" group-title="Sport",DAZN 1
 https://vavoo.to/vavoo-iptv/play/1376440573d46b3d682e20
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="DAZN2.it" tvg-name="DAZN 2" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/DAZN2.it.png" channel="DAZN2.it" group-title="Sport",DAZN 2
+https://vavoo.to/vavoo-iptv/play/3635062218e0132c616db
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="PRIMA TV" tvg-name="PRIMA TV" tvg-logo="" channel="PRIMA TV" group-title="Other",PRIMA TV
 https://vavoo.to/vavoo-iptv/play/530658045774685c88ed8
@@ -759,12 +768,6 @@ https://vavoo.to/vavoo-iptv/play/84139639718d779a091b
 #EXTINF:-1 tvg-id="LA 5" tvg-name="LA 5" tvg-logo="" channel="LA 5" group-title="Other",LA 5
 https://vavoo.to/vavoo-iptv/play/14256673753de6371f2c50
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="La7.it" tvg-name="LA 7" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7.it.png" channel="La7.it" group-title="Other",LA 7
-https://vavoo.to/vavoo-iptv/play/2143522071cfa887e2feb3
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
-#EXTINF:-1 tvg-id="La7.it" tvg-name="LA 7" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/La7.it.png" channel="La7.it" group-title="Other",LA 7
-https://vavoo.to/vavoo-iptv/play/7755300630832713e7adb
-#EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="LA 7 D" tvg-name="LA 7 D" tvg-logo="" channel="LA 7 D" group-title="Other",LA 7 D
 https://vavoo.to/vavoo-iptv/play/881846038948178d71a68
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
@@ -812,6 +815,9 @@ https://vavoo.to/vavoo-iptv/play/3889279895a867a5410d74
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="MTV.it" tvg-name="MTV" tvg-logo="https://raw.githubusercontent.com/mich-de/vavoo-player/master/logos/MTV.it.png" channel="MTV.it" group-title="Other",MTV
 https://vavoo.to/vavoo-iptv/play/3212860676dcc8c28a2be1
+#EXTVLCOPT:http-user-agent=okhttp/4.11.0
+#EXTINF:-1 tvg-id="MTV HITS" tvg-name="MTV HITS" tvg-logo="" channel="MTV HITS" group-title="Other",MTV HITS
+https://vavoo.to/vavoo-iptv/play/3446813098b031eef6dc22
 #EXTVLCOPT:http-user-agent=okhttp/4.11.0
 #EXTINF:-1 tvg-id="NICK JR" tvg-name="NICK JR" tvg-logo="" channel="NICK JR" group-title="Other",NICK JR
 https://vavoo.to/vavoo-iptv/play/38095847274e645e8a065
