@@ -590,7 +590,7 @@ class PlaylistGenerator:
                 ch['no_epg'] = True
             elif norm_name == "LA 7":
                 norm_name = "LA7"
-            elif norm_name == "8 TV" or norm_name == "8":
+            elif norm_name in ("8 TV", "8TV", "8"):
                 norm_name = "TV8"
             elif norm_name == "DISCOVERY NOVE":
                 norm_name = "NOVE"
