@@ -590,10 +590,24 @@ class PlaylistGenerator:
                 ch['no_epg'] = True
             elif norm_name == "LA 7":
                 norm_name = "LA7"
+            elif norm_name == "LA 5":
+                norm_name = "LA5"
             elif norm_name in ("8 TV", "8TV", "8", "TV 8"):
                 norm_name = "TV8"
             elif norm_name == "CINE 34":
                 norm_name = "CINE34"
+            elif norm_name == "TV 2000":
+                norm_name = "TV2000"
+            elif norm_name in ("TG COM 24", "TGCOM 24"):
+                norm_name = "TGCOM24"
+            elif norm_name == "SKY TG 24":
+                norm_name = "SKY TG24"
+            elif norm_name in ("SPORT ITALIA", "SPORTITALIA PLUS", "SPORTITALIA SOLOCALCIO"):
+                norm_name = "SPORTITALIA"
+            elif norm_name == "SUPER":
+                norm_name = "SUPER!"
+            elif norm_name in ("RTL 1025", "RTL1025"):
+                norm_name = "RTL 102.5"
             elif norm_name == "DISCOVERY NOVE":
                 norm_name = "NOVE"
             elif norm_name == "DISCOVERY K2":
@@ -615,7 +629,6 @@ class PlaylistGenerator:
             elif norm_name == "RAI SPORT":
                 ch['final_logo_override'] = "logos/rai-sport-hd-it.svg"
             elif norm_name.startswith("HISTORY") and "CHANNEL" not in norm_name and norm_name != "HISTORY":
-                # Matches HISTORY C, HISTORY  C, HISTORY S, HISTORYHD etc
                 norm_name = "HISTORY"
             elif norm_name == "HISTORY CHANNEL S" or norm_name == "HISTORY  CHANNEL S":
                 norm_name = "HISTORY"
