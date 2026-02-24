@@ -669,7 +669,7 @@ class PlaylistGenerator:
                 norm_name = "SKY SPORT F1"
             elif norm_name == "SKY SUPER TENNIS":
                 norm_name = "SUPER TENNIS"
-            elif norm_name in ("CANALE 27", "27", "TWENTYSEVEN"):
+            elif norm_name in ("CANALE 27", "27", "TWENTYSEVEN", "TWENTY SEVEN", "27 TWENTY SEVEN", "27 TWENTYSEVEN"):
                 norm_name = "TWENTYSEVEN"
             elif norm_name in ("CINE 34 MEDIASET",):
                 norm_name = "CINE34"
