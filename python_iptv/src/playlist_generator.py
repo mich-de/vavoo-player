@@ -80,7 +80,7 @@ EPG_MAP = {
     "20 MEDIASET": "Mediaset20.it",
     "CIELO": "cielo.it",
     "DMAX": "DMAX.it",
-    "REAL TIME": "RealTime.it",
+    "REAL TIME": "Real.Time.it",
     "FOCUS": "Focus.it",
     "DISCOVERY FOCUS": "Focus.it",
     "GIALLO": "Giallo.TV.it",
