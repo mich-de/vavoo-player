@@ -1,5 +1,8 @@
 # 📺 Vavoo IPTV Playlist Generator
 
+> [!WARNING]
+> This project is for **educational and informational purposes only**. The author assumes no responsibility for any misuse. By using this software, you agree to comply with all applicable laws and regulations in your jurisdiction.
+
 Automated M3U8 playlist generator for Italian IPTV channels from Vavoo sources, with full EPG mapping and logos.
 
 ## ✨ Features
