@@ -275,7 +275,7 @@ EPG_MAP = {
     "SUPER TENNIS": "SuperTennis.it",
     "SUPERTENNIS HD": "SuperTennisHD.it",
     "SUPERTENNIS": "SuperTennis.it",
-    "TWENTYSEVEN": "TWENTYSEVEN.it",
+    "TWENTYSEVEN": "Mediaset27Twentyseven.it",
     "DISCOVERY CHANNEL": "DiscoveryChannel.it",
     "DISCOVERY SCIENCE": "DiscoveryScience.it",
     "NAT GEO WILD": "NatGeoWild.it",
