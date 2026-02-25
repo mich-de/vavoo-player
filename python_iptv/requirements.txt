@@ -4,3 +4,4 @@ requests
 tzdata
 subliminal
 babelfish
+gunicorn==21.2.0
